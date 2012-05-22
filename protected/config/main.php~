@@ -7,13 +7,12 @@
 // CWebApplication properties can be configured here.
 return array(
 'basePath'=>dirname(__FILE__).DIRECTORY_SEPARATOR.'..',
-'name'=>'Eurotri',
+'name'=>'Feasan',
 
 // preloading 'log' component
 'preload'=>array('log'),
 'modules'=>array(
-'entrenamientos',
-'SportsEvents',
+'Search',
 'gii'=>array(
 'class'=>'system.gii.GiiModule',
 'password'=>'admin',
@@ -28,13 +27,12 @@ return array(
 'application.components.*',
 'application.helpers.*',
 'webroot.plugins.*',
-'application.modules.SportsEvents.models.*',
-'application.modules.Entrenamientos.models.*',
 ),
 
 // application components
 'components'=>array(
-'minScript'=>array(
+//Uncomment for minimize js and css scripts
+/*'minScript'=>array(
             'class'=>'ext.minScript.components.ExtMinScript',
             'groupMap'=>array(
                     'css'=>array(
@@ -54,7 +52,8 @@ return array(
                     ),
             ),
     ),
-
+*/
+//Uncomment for url manager
 /*'urlManager'=>array(
     'urlFormat'=>'path',
 ),*/
@@ -63,7 +62,7 @@ return array(
 'routes'=>array(
 array(
 'class'=>'CFileLogRoute',
-'levels'=>'error, warning',//, trace, info
+'levels'=>'error, warning',
 ),
 ),
 ),
@@ -73,9 +72,9 @@ array(
 ),
 'db'=>array(
 'class'=>'CDbConnection',
-'connectionString'=>'mysql:host=localhost;port=3306;dbname=portal',
-'username'=>'portal',
-'password'=>'H8RgkYoT',
+'connectionString'=>'mysql:host=localhost;port=3306;dbname=feasan_portal',
+'username'=>'feasan_portal',
+'password'=>'artres55',
 'charset'=>'utf8',
 ),
 'image'=>array(
@@ -86,19 +85,20 @@ array(
 //'params'=>array('directory'=>'/opt/local/bin'),
 ),
 ),
-'theme'=>'eurotri',
+'theme'=>'classic',
 // application-level parameters that can be accessed
 // using Yii::app()->params['paramName']
 'params'=>array(
 // this is used in contact page
-'adminEmail'=>'web@eurotri.com',
-'upload'=>'/var/www/vhosts/eurotri.com/httpdocs/upload/',
-'frontendTheme'=>'eurotri',
-'path'=>'/Eurotri/',
-'searchIndexPath'=>'/var/www/vhosts/eurotri.com/httpdocs/seindex/',
+'adminEmail'=>'dani.vlc89@gmail.com',
+'upload'=>'/var/www/ACMS/upload/',
+'frontendTheme'=>'classic',
+'path'=>'/',
+//'searchIndexPath'=>'/var/www/vhosts/eurotri.com/httpdocs/seindex/',
 ),
-'controllerMap'=>array(
+//Uncomment for min script
+/*'controllerMap'=>array(
         'min'=>'ext.minScript.controllers.ExtMinScriptController',
-),
+),*/
 'sourceLanguage'=>'es',
 );
