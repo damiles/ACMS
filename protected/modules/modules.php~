@@ -8,5 +8,5 @@ return array(
 'ContactosDeportivos'=>array('pluginName'=>'Contactos eventos','url'=>'/SportsEvents/SportContact/admin'),
 'entrenamientos'=>array('pluginName'=>'Plan de Entrenamientos','url'=>'/entrenamientos/EntrenamientoEntrenamiento/admin'),
 'trucos'=>array('pluginName'=>'Trucos','url'=>'/Truco/Truco/admin'),
-'trucosCategorias'=>array('pluginName'=>'Plan de Entrenamientos','url'=>'/Truco/TrucoCategoria/admin'),
+'trucosCategorias'=>array('pluginName'=>'Trucos Categorias','url'=>'/Truco/TrucoCategoria/admin'),
 );
