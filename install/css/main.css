@@ -1,0 +1,128 @@
+body
+{
+	background: white;
+	font-family:'Lucida Grande',Verdana,Geneva,Lucida,Helvetica,Arial,sans-serif;
+	font-size:11px;
+	font-weight:normal;
+}
+
+#page
+{
+	width: 800px;
+	margin: 0 auto;
+}
+
+#header
+{
+}
+
+#content
+{
+    background-color:#F1F1F1;
+    padding:20px;
+    color:#666;
+}
+
+#footer
+{
+	color: gray;
+	font-size:8pt;
+	border-top:1px solid #aaa;
+	margin-top:10px;
+}
+
+h1
+{
+	color:#4C7EAF;
+	font-size:1.6em;
+	font-weight:bold;
+	margin:0.5em 0pt;
+        padding-left:72px;
+        line-height:64px;
+        background:url(Administrative_Tools.gif) no-repeat;
+}
+
+h2
+{
+	color:#CF4DB4;
+	font-size:1.25em;
+	font-weight:bold;
+	margin:0.3em 0pt;
+        clear:both;
+}
+
+h3
+{
+	color:#CF4DB4;
+	font-size:1.1em;
+	font-weight:bold;
+	margin:0.2em 0pt;
+}
+
+table.result, form
+{
+	background:#E9ECEF none repeat scroll 0% 0%;
+	width:500px;
+        border:1px solid #C2C9CF;
+}
+form{padding:10px;}
+form div{margin-bottom:5px;}
+label{
+    display:block;
+    float:left;
+    width:150px;
+    text-align:right;
+    margin-right:10px;
+}
+input{
+    width:300px;
+}
+form .button{
+    
+}
+table.result th
+{
+	background:#CCD9FF none repeat scroll 0% 0%;
+	text-align:left;
+        display:none;
+}
+
+table.result th, table.result td
+{
+	border:0px;
+	padding:0.2em;
+}
+
+td.passed, .passed
+{
+	color: #6a6;
+	/*border: 1px solid silver;
+	padding: 2px;*/
+}
+
+td.warning, .warning
+{
+	color: #FFA200;
+	/*border: 1px solid silver;
+	padding: 2px;*/
+}
+
+td.failed, .failed
+{
+	color: #CF0C0C;
+	/*border: 1px solid silver;
+	padding: 2px;*/
+}
+
+.button{
+    padding:6px;
+    background-color:#E9ECEF;
+    border:1px solid #C2C9CF;
+    text-decoration:none;
+    color: #6b6b6b;
+    font-weight:bold;
+}
+.button:hover{
+    background-color:#3B6E9F;
+    color: #fff;
+}

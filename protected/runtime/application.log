@@ -1,0 +1,175 @@
+2012/04/13 08:54:16 [error] [php] Undefined index: idCat (/var/www/Eurotri/protected/modules/Truco/views/default/index.php:14)
+Stack trace:
+#0 /var/www/Eurotri/yii/framework/web/CController.php(833): DefaultController->renderFile()
+#1 /var/www/Eurotri/yii/framework/web/CController.php(746): DefaultController->renderPartial()
+#2 /var/www/Eurotri/protected/modules/Truco/controllers/DefaultController.php(7): DefaultController->render()
+#3 /var/www/Eurotri/yii/framework/web/actions/CInlineAction.php(57): DefaultController->actionIndex()
+#4 /var/www/Eurotri/yii/framework/web/CController.php(300): CInlineAction->run()
+#5 /var/www/Eurotri/yii/framework/web/CController.php(278): DefaultController->runAction()
+#6 /var/www/Eurotri/yii/framework/web/CController.php(257): DefaultController->runActionWithFilters()
+#7 /var/www/Eurotri/yii/framework/web/CWebApplication.php(328): DefaultController->run()
+#8 /var/www/Eurotri/yii/framework/web/CWebApplication.php(121): CWebApplication->runController()
+#9 /var/www/Eurotri/yii/framework/base/CApplication.php(155): CWebApplication->processRequest()
+#10 /var/www/Eurotri/index.php(11): CWebApplication->run()
+REQUEST_URI=/Eurotri/index.php?r=Truco&title=Trucos&idm=82
+2012/04/13 09:16:29 [error] [php] Undefined variable: titular (/var/www/Eurotri/protected/modules/Truco/views/default/index.php:13)
+Stack trace:
+#0 /var/www/Eurotri/yii/framework/web/CController.php(833): DefaultController->renderFile()
+#1 /var/www/Eurotri/yii/framework/web/CController.php(746): DefaultController->renderPartial()
+#2 /var/www/Eurotri/protected/modules/Truco/controllers/DefaultController.php(12): DefaultController->render()
+#3 /var/www/Eurotri/yii/framework/web/actions/CInlineAction.php(57): DefaultController->actionIndex()
+#4 /var/www/Eurotri/yii/framework/web/CController.php(300): CInlineAction->run()
+#5 /var/www/Eurotri/yii/framework/web/CController.php(278): DefaultController->runAction()
+#6 /var/www/Eurotri/yii/framework/web/CController.php(257): DefaultController->runActionWithFilters()
+#7 /var/www/Eurotri/yii/framework/web/CWebApplication.php(328): DefaultController->run()
+#8 /var/www/Eurotri/yii/framework/web/CWebApplication.php(121): CWebApplication->runController()
+#9 /var/www/Eurotri/yii/framework/base/CApplication.php(155): CWebApplication->processRequest()
+#10 /var/www/Eurotri/index.php(11): CWebApplication->run()
+REQUEST_URI=/Eurotri/index.php?r=Truco&title=Trucos&idm=82
+2012/04/13 09:16:54 [error] [exception.CException] exception 'CException' with message 'DefaultController no ha podido encontrar la vista "consejos_view" solicitada.' in /var/www/Eurotri/yii/framework/web/CController.php:842
+Stack trace:
+#0 /var/www/Eurotri/yii/framework/zii/widgets/CListView.php(220): CController->renderPartial('consejos_view', Array)
+#1 /var/www/Eurotri/yii/framework/zii/widgets/CBaseListView.php(158): CListView->renderItems()
+#2 [internal function]: CBaseListView->renderSection(Array)
+#3 /var/www/Eurotri/yii/framework/zii/widgets/CBaseListView.php(141): preg_replace_callback('/{(\w+)}/', Array, '{items}<div cla...')
+#4 /var/www/Eurotri/yii/framework/zii/widgets/CBaseListView.php(127): CBaseListView->renderContent()
+#5 /var/www/Eurotri/yii/framework/web/CBaseController.php(166): CBaseListView->run()
+#6 /var/www/Eurotri/protected/modules/Truco/views/default/index.php(48): CBaseController->widget('zii.widgets.CLi...', Array)
+#7 /var/www/Eurotri/yii/framework/web/CBaseController.php(119): require('/var/www/Eurotr...')
+#8 /var/www/Eurotri/yii/framework/web/CBaseController.php(88): CBaseController->renderInternal('/var/www/Eurotr...', Array, true)
+#9 /var/www/Eurotri/yii/framework/web/CController.php(833): CBaseController->renderFile('/var/www/Eurotr...', Array, true)
+#10 /var/www/Eurotri/yii/framework/web/CController.php(746): CController->renderPartial('index', Array, true)
+#11 /var/www/Eurotri/protected/modules/Truco/controllers/DefaultController.php(12): CController->render('index', Array)
+#12 /var/www/Eurotri/yii/framework/web/actions/CInlineAction.php(57): DefaultController->actionIndex()
+#13 /var/www/Eurotri/yii/framework/web/CController.php(300): CInlineAction->run()
+#14 /var/www/Eurotri/yii/framework/web/CController.php(278): CController->runAction(Object(CInlineAction))
+#15 /var/www/Eurotri/yii/framework/web/CController.php(257): CController->runActionWithFilters(Object(CInlineAction), Array)
+#16 /var/www/Eurotri/yii/framework/web/CWebApplication.php(328): CController->run('')
+#17 /var/www/Eurotri/yii/framework/web/CWebApplication.php(121): CWebApplication->runController('Truco')
+#18 /var/www/Eurotri/yii/framework/base/CApplication.php(155): CWebApplication->processRequest()
+#19 /var/www/Eurotri/index.php(11): CApplication->run()
+#20 {main} REQUEST_URI=/Eurotri/index.php?r=Truco&title=Trucos&idm=82
+2012/04/13 09:17:16 [error] [exception.CException] exception 'CException' with message 'Propiedad "TrucoCategoria"."date" no se encuentra definida.' in /var/www/Eurotri/yii/framework/base/CComponent.php:131
+Stack trace:
+#0 /var/www/Eurotri/yii/framework/db/ar/CActiveRecord.php(110): CComponent->__get('date')
+#1 /var/www/Eurotri/protected/modules/Truco/views/default/index_view.php(7): CActiveRecord->__get('date')
+#2 /var/www/Eurotri/yii/framework/web/CBaseController.php(119): require('/var/www/Eurotr...')
+#3 /var/www/Eurotri/yii/framework/web/CBaseController.php(88): CBaseController->renderInternal('/var/www/Eurotr...', Array, true)
+#4 /var/www/Eurotri/yii/framework/web/CController.php(833): CBaseController->renderFile('/var/www/Eurotr...', Array, true)
+#5 /var/www/Eurotri/yii/framework/zii/widgets/CListView.php(220): CController->renderPartial('index_view', Array)
+#6 /var/www/Eurotri/yii/framework/zii/widgets/CBaseListView.php(158): CListView->renderItems()
+#7 [internal function]: CBaseListView->renderSection(Array)
+#8 /var/www/Eurotri/yii/framework/zii/widgets/CBaseListView.php(141): preg_replace_callback('/{(\w+)}/', Array, '{items}<div cla...')
+#9 /var/www/Eurotri/yii/framework/zii/widgets/CBaseListView.php(127): CBaseListView->renderContent()
+#10 /var/www/Eurotri/yii/framework/web/CBaseController.php(166): CBaseListView->run()
+#11 /var/www/Eurotri/protected/modules/Truco/views/default/index.php(48): CBaseController->widget('zii.widgets.CLi...', Array)
+#12 /var/www/Eurotri/yii/framework/web/CBaseController.php(119): require('/var/www/Eurotr...')
+#13 /var/www/Eurotri/yii/framework/web/CBaseController.php(88): CBaseController->renderInternal('/var/www/Eurotr...', Array, true)
+#14 /var/www/Eurotri/yii/framework/web/CController.php(833): CBaseController->renderFile('/var/www/Eurotr...', Array, true)
+#15 /var/www/Eurotri/yii/framework/web/CController.php(746): CController->renderPartial('index', Array, true)
+#16 /var/www/Eurotri/protected/modules/Truco/controllers/DefaultController.php(12): CController->render('index', Array)
+#17 /var/www/Eurotri/yii/framework/web/actions/CInlineAction.php(57): DefaultController->actionIndex()
+#18 /var/www/Eurotri/yii/framework/web/CController.php(300): CInlineAction->run()
+#19 /var/www/Eurotri/yii/framework/web/CController.php(278): CController->runAction(Object(CInlineAction))
+#20 /var/www/Eurotri/yii/framework/web/CController.php(257): CController->runActionWithFilters(Object(CInlineAction), Array)
+#21 /var/www/Eurotri/yii/framework/web/CWebApplication.php(328): CController->run('')
+#22 /var/www/Eurotri/yii/framework/web/CWebApplication.php(121): CWebApplication->runController('Truco')
+#23 /var/www/Eurotri/yii/framework/base/CApplication.php(155): CWebApplication->processRequest()
+#24 /var/www/Eurotri/index.php(11): CApplication->run()
+#25 {main} REQUEST_URI=/Eurotri/index.php?r=Truco&title=Trucos&idm=82
+2012/04/13 09:32:43 [error] [exception.CException] exception 'CException' with message 'Propiedad "TrucoCategoriaContent"."text" no se encuentra definida.' in /var/www/Eurotri/yii/framework/base/CComponent.php:131
+Stack trace:
+#0 /var/www/Eurotri/yii/framework/db/ar/CActiveRecord.php(110): CComponent->__get('text')
+#1 /var/www/Eurotri/protected/helpers/ACMS.php(57): CActiveRecord->__get('text')
+#2 /var/www/Eurotri/protected/modules/Truco/views/default/index_view.php(13): ACMS::getText(Object(TrucoCategoria))
+#3 /var/www/Eurotri/yii/framework/web/CBaseController.php(119): require('/var/www/Eurotr...')
+#4 /var/www/Eurotri/yii/framework/web/CBaseController.php(88): CBaseController->renderInternal('/var/www/Eurotr...', Array, true)
+#5 /var/www/Eurotri/yii/framework/web/CController.php(833): CBaseController->renderFile('/var/www/Eurotr...', Array, true)
+#6 /var/www/Eurotri/yii/framework/zii/widgets/CListView.php(220): CController->renderPartial('index_view', Array)
+#7 /var/www/Eurotri/yii/framework/zii/widgets/CBaseListView.php(158): CListView->renderItems()
+#8 [internal function]: CBaseListView->renderSection(Array)
+#9 /var/www/Eurotri/yii/framework/zii/widgets/CBaseListView.php(141): preg_replace_callback('/{(\w+)}/', Array, '{items}<div cla...')
+#10 /var/www/Eurotri/yii/framework/zii/widgets/CBaseListView.php(127): CBaseListView->renderContent()
+#11 /var/www/Eurotri/yii/framework/web/CBaseController.php(166): CBaseListView->run()
+#12 /var/www/Eurotri/protected/modules/Truco/views/default/index.php(48): CBaseController->widget('zii.widgets.CLi...', Array)
+#13 /var/www/Eurotri/yii/framework/web/CBaseController.php(119): require('/var/www/Eurotr...')
+#14 /var/www/Eurotri/yii/framework/web/CBaseController.php(88): CBaseController->renderInternal('/var/www/Eurotr...', Array, true)
+#15 /var/www/Eurotri/yii/framework/web/CController.php(833): CBaseController->renderFile('/var/www/Eurotr...', Array, true)
+#16 /var/www/Eurotri/yii/framework/web/CController.php(746): CController->renderPartial('index', Array, true)
+#17 /var/www/Eurotri/protected/modules/Truco/controllers/DefaultController.php(12): CController->render('index', Array)
+#18 /var/www/Eurotri/yii/framework/web/actions/CInlineAction.php(57): DefaultController->actionIndex()
+#19 /var/www/Eurotri/yii/framework/web/CController.php(300): CInlineAction->run()
+#20 /var/www/Eurotri/yii/framework/web/CController.php(278): CController->runAction(Object(CInlineAction))
+#21 /var/www/Eurotri/yii/framework/web/CController.php(257): CController->runActionWithFilters(Object(CInlineAction), Array)
+#22 /var/www/Eurotri/yii/framework/web/CWebApplication.php(328): CController->run('')
+#23 /var/www/Eurotri/yii/framework/web/CWebApplication.php(121): CWebApplication->runController('Truco')
+#24 /var/www/Eurotri/yii/framework/base/CApplication.php(155): CWebApplication->processRequest()
+#25 /var/www/Eurotri/index.php(11): CApplication->run()
+#26 {main} REQUEST_URI=/Eurotri/index.php?r=Truco&title=Trucos&idm=82
+2012/04/13 10:19:35 [warning] [application] Spent time into index: 0.54954504966736 seconds
+2012/04/13 10:29:04 [error] [php] include(Truco.php): failed to open stream: No such file or directory (/var/www/Eurotri/yii/framework/YiiBase.php:395)
+Stack trace:
+#0 /var/www/Eurotri/themes/eurotri/views/site/index.php(43): spl_autoload_call()
+#1 /var/www/Eurotri/yii/framework/web/CBaseController.php(119): require()
+#2 /var/www/Eurotri/yii/framework/web/CBaseController.php(88): SiteController->renderInternal()
+#3 /var/www/Eurotri/yii/framework/web/CController.php(833): SiteController->renderFile()
+#4 /var/www/Eurotri/yii/framework/web/CController.php(746): SiteController->renderPartial()
+#5 /var/www/Eurotri/protected/controllers/SiteController.php(55): SiteController->render()
+#6 /var/www/Eurotri/yii/framework/web/actions/CInlineAction.php(57): SiteController->actionIndex()
+#7 /var/www/Eurotri/yii/framework/web/CController.php(300): CInlineAction->run()
+#8 /var/www/Eurotri/yii/framework/web/CController.php(278): SiteController->runAction()
+#9 /var/www/Eurotri/yii/framework/web/CController.php(257): SiteController->runActionWithFilters()
+#10 /var/www/Eurotri/yii/framework/web/CWebApplication.php(328): SiteController->run()
+#11 /var/www/Eurotri/yii/framework/web/CWebApplication.php(121): CWebApplication->runController()
+#12 /var/www/Eurotri/yii/framework/base/CApplication.php(155): CWebApplication->processRequest()
+#13 /var/www/Eurotri/index.php(11): CWebApplication->run()
+REQUEST_URI=/Eurotri/index.php?r=site/index&id=5&title=Lo_m%C3%A1s_destacado_de_la_semana&idm=7
+2012/04/13 10:41:50 [warning] [application] Spent time into index: 0.44074702262878 seconds
+2012/04/13 10:44:44 [warning] [application] Spent time into index: 0.41480302810669 seconds
+2012/04/13 10:45:56 [warning] [application] Spent time into index: 0.45900082588196 seconds
+2012/04/13 10:47:17 [warning] [application] Spent time into index: 0.53954792022705 seconds
+2012/04/13 10:50:14 [warning] [application] Spent time into index: 0.48156094551086 seconds
+2012/04/13 10:51:31 [warning] [application] Spent time into index: 0.42581796646118 seconds
+2012/04/13 10:51:45 [warning] [application] Spent time into index: 0.43041396141052 seconds
+2012/04/13 10:52:28 [warning] [application] Spent time into index: 0.52504801750183 seconds
+2012/04/13 10:55:42 [warning] [application] Spent time into index: 0.43328809738159 seconds
+2012/04/13 10:56:24 [warning] [application] Spent time into index: 0.47566413879395 seconds
+2012/04/13 10:56:39 [warning] [application] Spent time into index: 0.42543888092041 seconds
+2012/04/13 10:58:17 [warning] [application] Spent time into index: 0.42789316177368 seconds
+2012/04/13 10:59:25 [warning] [application] Spent time into index: 0.40966391563416 seconds
+2012/04/13 10:59:39 [warning] [application] Spent time into index: 0.42014789581299 seconds
+2012/04/13 10:59:59 [warning] [application] Spent time into index: 0.41071200370789 seconds
+2012/04/13 11:00:22 [warning] [application] Spent time into index: 0.48980093002319 seconds
+2012/04/13 11:04:08 [warning] [application] Spent time into index: 0.4551842212677 seconds
+2012/04/13 11:08:40 [warning] [application] Spent time into index: 0.52772498130798 seconds
+2012/04/13 11:09:35 [warning] [application] Spent time into index: 0.45054602622986 seconds
+2012/04/13 11:10:35 [warning] [application] Spent time into index: 0.46721792221069 seconds
+2012/04/13 11:11:13 [warning] [application] Spent time into index: 0.45207691192627 seconds
+2012/04/13 11:22:51 [warning] [application] Spent time into index: 0.79259204864502 seconds
+2012/04/13 11:23:43 [warning] [application] Spent time into index: 0.45177602767944 seconds
+2012/04/13 11:24:36 [warning] [application] Spent time into index: 0.57061290740967 seconds
+2012/04/13 11:24:55 [warning] [application] Spent time into index: 0.47855615615845 seconds
+2012/04/13 11:25:17 [warning] [application] Spent time into index: 0.45308613777161 seconds
+2012/04/13 11:25:47 [warning] [application] Spent time into index: 0.50613403320312 seconds
+2012/04/13 11:26:01 [warning] [application] Spent time into index: 0.46744799613953 seconds
+2012/04/13 11:26:19 [warning] [application] Spent time into index: 0.57055401802063 seconds
+2012/04/13 11:26:37 [warning] [application] Spent time into index: 0.44934606552124 seconds
+2012/04/13 11:27:14 [warning] [application] Spent time into index: 0.42111897468567 seconds
+2012/04/13 11:27:37 [warning] [application] Spent time into index: 0.42004704475403 seconds
+2012/04/13 11:27:49 [warning] [application] Spent time into index: 0.52311205863953 seconds
+2012/04/13 11:28:06 [warning] [application] Spent time into index: 0.4200758934021 seconds
+2012/04/13 11:30:33 [warning] [application] Spent time into index: 0.45530295372009 seconds
+2012/04/13 11:31:02 [warning] [application] Spent time into index: 0.46050691604614 seconds
+2012/04/13 11:31:17 [warning] [application] Spent time into index: 0.48442006111145 seconds
+2012/04/13 11:31:27 [warning] [application] Spent time into index: 0.56653809547424 seconds
+2012/04/13 11:32:43 [warning] [application] Spent time into index: 0.43515205383301 seconds
+2012/04/13 11:33:34 [warning] [application] Spent time into index: 0.422847032547 seconds
+2012/04/13 11:36:03 [warning] [application] Spent time into index: 0.58379602432251 seconds
+2012/04/13 11:36:45 [warning] [application] Spent time into index: 0.48746585845947 seconds
+2012/04/13 12:11:35 [warning] [application] Spent time into index: 0.45232605934143 seconds
+2012/05/18 09:28:12 [warning] [application] Spent time into index: 1.3334829807281 seconds
+2012/05/18 09:36:41 [warning] [application] Spent time into index: 0.45566511154175 seconds
+2012/05/18 10:33:10 [warning] [application] Spent time into index: 0.42860293388367 seconds
+2012/05/18 10:33:18 [warning] [application] Spent time into index: 0.44851899147034 seconds
+2012/05/18 10:39:28 [warning] [application] Spent time into index: 0.44268298149109 seconds
+2012/05/21 09:00:20 [warning] [application] Spent time into index: 1.4412078857422 seconds

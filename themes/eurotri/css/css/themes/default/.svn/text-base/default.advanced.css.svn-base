@@ -1,0 +1,85 @@
+@charset "UTF-8";
+
+/** 
+ * Default Advanced CSS Drop-Down Menu Theme
+ *
+ * @file		default.advanced.css
+ * @name		Default
+ * @version		0.1
+ * @type		transitional
+ * @browsers	Windows: IE5+, Opera7+, Firefox1+
+ *				Mac OS: Safari2+, Firefox2+
+ *
+ * @link		http://www.lwis.net/
+ * @copyright	2008 Live Web Institute. All Rights Reserved.
+ *
+ */
+
+@import "default.css";
+
+
+/*-------------------------------------------------/
+ * @section		Base Style Extension
+ */
+ul.dropdown ul{margin-top:0;}
+ul.dropdown li a {
+ display: block;
+ padding: 12px 10px 11px;
+}
+
+
+/*-------------------------------------------------/
+ * @section		Base Style Override
+ */
+
+ul.dropdown li {
+ padding: 0;
+}
+
+
+/*-------------------------------------------------/
+ * @section		Base Style Reinitiate: post-override activities
+ */
+
+ul.dropdown li.dir {
+/* padding: 7px 20px 7px 10px;*/
+}
+
+ul.dropdown ul li.dir {
+ padding-right: 15px;
+}
+
+
+/*-------------------------------------------------/
+ * @section		Custom
+ */
+
+ul.dropdown *.dir li {
+	 padding: 0px;
+	 border-style: solid;
+	 border-width: 1px 1px 1px 0;
+	 border-color: #3F3737 #1f1f1f #1f1f1f;
+	 background-color: #242424;
+	 color: #fff;
+}
+ul.dropdown *.dir li:last-child{
+	border-bottom-right-radius:10px;
+	-moz-border-radius-bottomright:10px;
+	-webkit-border-bottom-right-radius:10px;
+	
+	border-bottom-left-radius:10px;
+	-moz-border-radius-bottomleft:10px;
+	-webkit-border-bottom-left-radius:10px;
+}
+ul.dropdown ul a:link, ul.dropdown ul a:visited{ color:#fff;	}
+ul.dropdown ul a:hover{color:#f00;}
+ul.dropdown ul a {
+ width: 129px;
+ color:#000;
+}
+
+ul.dropdown ul a:hover {}
+
+ul.dropdown ul a.dir {
+ width: 124px;
+}

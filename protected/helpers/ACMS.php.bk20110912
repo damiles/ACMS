@@ -1,0 +1,730 @@
+<?php
+/* 
+ * To change this template, choose Tools | Templates
+ * and open the template in the editor.
+ */
+
+/**
+ * Description of ACMS
+ *
+ * @author imac24
+ */
+
+define("ACMS_MENU_PRINCIPAL", 0);
+define("ACMS_MENU_TOP", 1);
+define("ACMS_MENU_FOOTER", 2);
+define("ACMS_MENU_SIDE", 3);
+
+define("ACMS_PUBLIC", 0);
+define("ACMS_PRIVATE", 1);
+define("ACMS_ONLYPUBLIC", 2);
+
+define("ACMS_LINK_SITE", 0);
+define("ACMS_LINK_EXTERNAL", 1);
+
+
+define('ACMS_SETTINGS_TITLE', 'title-portal');
+define('ACMS_SETTINGS_ADMINMAIL', 'admin-mail');
+define('ACMS_SETTINGS_ANALYTICS', 'analytics');
+define('ACMS_SETTINGS_ANALYTICS_TABLEID', 'analytics-tableid');
+define('ACMS_SETTINGS_ANALYTICS_USER', 'analytics-user');
+define('ACMS_SETTINGS_ANALYTICS_PASS', 'analytics-pass');
+define('ACMS_SETTINGS_ADMIN_EMAIL', 'admin_email');
+define('ACMS_SETTINGS_UPLOAD_DIR', 'upload_dir');
+
+class ACMS {
+	//put your code here
+
+	//empty function for load this class and all constants defined in this file.
+	public static function load(){
+	}
+
+	public static function getTitle($data, $lang=null){
+		//if(!isset($lang))
+		//	$lang=ACMS::getDefaultLang()->idLang;
+		$lang=YII::app()->getLanguage();
+		foreach ($data->content as $item)
+			if($item->lang===$lang)
+				return $item->title;
+	}
+
+	public static function getText($data, $lang=null){
+		//if(!isset($lang))
+		//	$lang=ACMS::getDefaultLang()->idLang;
+		$lang=YII::app()->getLanguage();
+		foreach ($data->content as $item)
+			if($item->lang===$lang)
+				return $item->text;
+	}
+	public static function cutText($text, $chars=200){
+
+		$text = substr($text, 0, $chars);
+
+		//Borramos la ultima palabra para evitar palabras truncadas
+		$textA = split(' ',$text);
+		array_pop($textA);
+		$text= implode(' ', $textA);
+
+		return $text;
+	}
+	
+	public static function getPageBreakText($data, $delimiter="<!-- pagebreak -->", $lang=null)
+	{
+		$text="";
+		$lang=YII::app()->getLanguage();
+		foreach ($data->content as $item)
+			if($item->lang===$lang)
+				$text=$item->text;
+		$splitText=split($delimiter, $text);
+		$breakText=$splitText[0];
+		//ToDo Comprobar que no existen tags abiertos
+		
+		return $breakText;
+		
+	}
+	
+        public static function getFirstParagraph($data, $lang=null){
+                //Recogemos el texto
+                $text=ACMS::getText($data);
+                //Buscamos el primer parrafo
+                $start = strpos($text, '<p>');
+                $end = strpos($text, '</p>', $start);
+                $paragraph = substr($text, $start, $end-$start+4);
+                //Eliminamos las imagenes que contenga el parrafo
+                $search = '/<img.*?>/i';
+		$replace = '';
+		$text = preg_replace ($search, $replace, $paragraph);
+                
+                //Devolvemos el parrafo
+                return $text;
+        }
+        
+	public static function getMinimalText($data, $chars=200, $lang=null){
+		//if(!isset($lang))
+		//	$lang=ACMS::getDefaultLang()->idLang;
+		$lang=YII::app()->getLanguage();
+		$text="";
+		foreach ($data->content as $item)
+			if($item->lang===$lang)
+				$text= $item->text;
+
+		/*
+                $search = '/<img.*?>/i';
+		$replace = '';
+
+		$text = preg_replace ($search, $replace, $text);
+                */
+                $text=strip_tags($text);
+		$text=ACMS::cutText($text,$chars);
+
+		return $text;
+
+	}
+
+	public static function getFirstTextImageSrc($data, $lang=null){
+		$text=ACMS::getText($data, $lang);
+		$search = '/<img.*?>/i';
+		if(preg_match($search, $text, $matches)){
+			$search_src="/src='.*?'/i";
+			$img=$matches[0];
+			if(preg_match($search_src,$img,$matches_src)){
+				return $matches_src[0];
+			}else{
+				$search_src='/src=".*?"/i';
+				if(preg_match($search_src,$img,$matches_src))
+					return $matches_src[0];
+			}
+		}else
+			return "src='upload/default.png'";
+
+
+
+	}
+
+	public static function getMonthsLabel($lang=null){
+		$meses=array("Diciembre","Enero", "Febrero", "Marzo", "Abril","Mayo", "Junio", "Julio", "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre"); 
+		return $meses;
+	}
+	public static function getDaysLabel($lang=null){
+		$dias=array("Domingo", "Lunes", "Martes", "Miércoles", "Jueves", "Viernes", "Sábado");
+		return $dias;
+	}	
+	public static function getBeautyDate($data, $lang=null){
+		$dias=array("Domingo", "Lunes", "Martes", "Miércoles", "Jueves", "Viernes", "Sábado");
+		$meses=array("Diciembre","Enero", "Febrero", "Marzo", "Abril","Mayo", "Junio", "Julio", "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre"); 
+		$fecha=getDate(strtotime($data->date));
+		return $dias[$fecha['wday']]." ".$fecha['mday']." de ". $meses[$fecha['mon']]." de ".$fecha['year'];
+	}	
+        public static function getShortDate($data, $lang=null){
+		$fecha=getDate(strtotime($data->date));
+		return $fecha['mday']."/". ($fecha['mon']+1)."/".$fecha['year'];
+	}
+
+	public static function getHomeImageSrc($data, $lang=null){
+		if($data->img_portada!='null' && $data->img_portada!= NULL){
+			return "src='".Yii::app()->params['path']."/$data->img_portada'";
+		}else
+			return "src='".Yii::app()->params['path']."/upload/default.png'";
+
+
+
+	}
+
+	public static function isInMenuAdmin($data){
+		$rval=Yii::app()->getUrlManager()->routeVar;
+		if(isset($_GET[$rval])){
+			$text=$_GET[$rval];
+			if(strstr($text,$data)==false)
+				return false;
+			else
+				return true;
+		}else{
+			return false;
+		}
+	}
+
+	public static function getDefaultLang(){
+		$lang=Lang::model()->findByAttributes(array('default'=>1));
+		return $lang;
+	}
+
+	public static function listadoPaginas(){
+		$datos=array();
+		$paginas=Article::model()->findAllByAttributes(array('type'=>'page'));
+		foreach ($paginas as $item){
+			$label=ACMS::getTitle($item,ACMS::getDefaultLang()->idLang);
+			$datos[$item->idArticle]=$label;
+		}
+		return $datos;
+	}
+
+	public static function listadoPlaylists(){
+		$datos=array();
+		$datos['']="Todas los videos";
+		$user=Settings::model()->findByAttributes(array('id'=>'youtube-user'))->value;
+
+		$feedURL = 'http://gdata.youtube.com/feeds/api/users/'.$user.'/playlists';
+
+		// read feed into SimpleXML object
+		$sxml = simplexml_load_file($feedURL);
+
+		// iterate over entries in feed
+		foreach ($sxml->entry as $entry) {
+
+			$yt = $entry->children('http://gdata.youtube.com/schemas/2007');
+
+			$label=$entry->title;
+			$datos[(string)$yt->playlistId]=(string)$entry->title;
+		}
+
+		return $datos;
+	}
+
+	public static function getVideoList($playlist=null){
+		//Array where store videos
+		$videos=array();
+		//Retrive   youtube user
+		$user=Settings::model()->findByAttributes(array('id'=>'youtube-user'))->value;
+		//URL for feed
+		$feedURL = 'http://gdata.youtube.com/feeds/api/users/'.$user.'';
+		//customize Feed for playlist or all upload videos
+		if($playlist==null or $playlist=='')
+			$feedURL.="/uploads";
+		else
+			$feedURL="http://gdata.youtube.com/feeds/api/playlists/".$playlist;
+
+		// read feed into SimpleXML object
+		$sxml = simplexml_load_file($feedURL);
+
+		// iterate over entries in feed
+		foreach ($sxml->entry as $entry) {
+
+			$video=new Video();
+			$video->init($entry);
+
+			array_push($videos, $video);
+		}
+
+		return $videos;
+
+	}
+
+	public static function listadoDocumentsCategories(){
+		$datos=array();
+		$categoria=Category::model()->findAll(new CDbCriteria(array('condition'=>'type="documents"'))); 
+		$datos['0']="Todas las categorias";
+		foreach ($categoria as $item){
+			$label=$item->name;
+			$datos[$item->idCategory]=$label;
+		}
+		return $datos;
+	}
+        
+        public static function listadoCategoriaNews($p=0,$l=0){
+		$datos=array();
+		$categoria=ArticleCategory::model()->findAll(new CDbCriteria(array('condition'=>'parent='.$p)));
+		if($p==0){
+                    $datos['null']="Sin categoría";
+                    $datos['0']="Todas las categorias";
+                }
+                $spaces='';
+                for($i=0;$i<$l; $i++)
+                    $spaces=$spaces."--";
+		foreach ($categoria as $item){
+                    $label=ACMS::getTitle($item,ACMS::getDefaultLang()->idLang);
+                    $datos["".$item->idArticleCategory]=$spaces.$label;
+                    $datos=$datos + ACMS::listadoCategoriaNews($item->idArticleCategory,$l+1);
+		}
+		return $datos;
+	}
+
+	public static function addBread(&$bread, $menu){
+		$bread[ACMS::getTitle($menu)]=array("site/page", "id"=>$menu->params);
+		if($menu->parent!=0)
+			ACMS::addBread($bread, $menu->parent0);
+	}
+
+	/**
+	 * getBreadcrumbs.
+	 * Description:
+	 * Funcion que devuelve la localizacion del usuario
+	 * 
+	 * @return array
+	 */
+	public static function getBreadcrumb(){
+
+		$breadcrumbs=array();
+		if(isset($_GET["idm"])){
+			$idm=$_GET["idm"];
+			$menu=Menu::model()->findByPk($idm);
+			//'Ejemplo'=>array("site/page","id"=>3)
+			ACMS::addBread($breadcrumbs, $menu);	
+		}
+		$breadcrumbs=array_reverse($breadcrumbs);
+		return $breadcrumbs;
+	}
+
+
+	/**
+	 * Analytics 
+	 */
+	public static function getAnalyticsCode(){
+		$code=Settings::model()->findByAttributes(array('id'=>'analytics'));
+		return $code->value;
+	}
+	public static function getAnalyticsUser(){
+		$code=Settings::model()->findByAttributes(array('id'=>'analytics-user'));
+		return $code->value;
+	}
+	public static function getAnalyticsPass(){
+		$code=Settings::model()->findByAttributes(array('id'=>'analytics-pass'));
+		return $code->value;
+	}
+	public static function getAnalyticsId(){
+		$code=Settings::model()->findByAttributes(array('id'=>'analytics-tableid'));
+		return $code->value;
+	}
+
+	/**
+	 * Categorias
+	 */
+	public static function getCategorias(){
+		$cats=ArticleCategory::model()->findAll();
+		$result=Array();
+		$result['null']="Sin categoría";
+		foreach($cats as $cat){
+			$result[$cat->idArticleCategory]=ACMS::getTitle($cat,ACMS::getDefaultLang()->idLang);
+		}	
+		return $result;	
+
+	}
+        
+        public static function getChildCategories($cat){
+            $cats=array();
+            array_push($cats, $cat->idArticleCategory);
+            foreach($cat->childs as $item)
+                   $cats= array_merge($cats, ACMS::getChildCategories($item));
+                    
+            return $cats;
+        }
+        
+	/**
+	 * Listado de imagenes
+	 */
+	public static function getImagenList($showDescr=false, $categoria=null){
+		$result=Array();
+		$result['null']="Sin imagen";
+
+		$criterio1=new CDbCriteria;
+                if( is_null($categoria))
+                    $criterio1->condition="type='images'";
+                else
+                    $criterio1->condition="type='images' and name='".$categoria."'";
+		$galeria=Category::model()->findAll($criterio1);
+
+		foreach($galeria as $i=>$item){
+			$nombre=$item->name;
+			foreach($item->files as $item_arch){
+                                $fileDescr=$item_arch->name;
+                                if($showDescr)
+                                    $fileDescr=$item_arch->description;
+                                
+				$result['upload/'.$item_arch->url]=$nombre. ' > '.$fileDescr;
+			}
+		}
+		return $result;	
+
+	}
+
+	/**
+	 * Listado de imagenes
+	 */
+	public static function getAgendaList(){
+		$result=Array();
+		$result['null']="Selecciona una asociación";
+		$agendas=Agenda::model()->findAll();
+
+		foreach($agendas as $i=>$item){
+			$result[$item->idAgenda]=ACMS::getTitle($item);
+		}
+		return $result;	
+
+	}
+
+	public static function generatePassword(){
+
+		$chars=Array('a','b','c','d','e','f','g','h','i','j','k','l','m','n','o','p','q','r','s','t','v','w','x','y','z','A','B','C','D','E','F','G','H','I','J','K','L','M','N','O','P','Q','R','S','T','U','V','W','X','Y','Z','1','2','3','4','5','6','7','8','9','0','!','@','#','$','%','&','/','(',')','=','*','{','}','-','_','+',':',';','.',',');
+		$total=count($chars);
+		$passwordSize=8;
+		$pass='';
+		for($i=0; $i< $passwordSize; $i++)
+		{
+			$pass.=$chars[rand(0,$total-1)];
+		}
+		return $pass;
+	}
+
+	public static function getPrincipalTitleMenu(){
+		$selectedMenu=0;
+		if(isset($_GET['idm']))
+			$selectedMenu=$_GET['idm'];
+		$menu=Menu::model()->findByPk(array($selectedMenu));
+		if(isset($menu)){
+			while($menu->parent!=0){
+				$menu=$menu->parent0;
+			}
+			return ACMS::getTitle($menu);
+		}
+		return 'Fedesparkinson';
+
+	}
+
+
+	public static function sendMail($from, $to, $subject, $message, $altMessage=''){
+		$smtpHost=Settings::model()->findByAttributes(array('id'=>'smtp-host'))->value;
+		$smtpUser=Settings::model()->findByAttributes(array('id'=>'smtp-user'))->value;
+		$smtpPass=Settings::model()->findByAttributes(array('id'=>'smtp-pass'))->value;
+		$smtpPort=Settings::model()->findByAttributes(array('id'=>'smtp-port'))->value;
+                $smtpAuth=Settings::model()->findByAttributes(array('id'=>'smtp-auth'))->value;
+                $smtpSecure=Settings::model()->findByAttributes(array('id'=>'smtp-secure'))->value;
+
+		require_once('phpMailer/class.phpmailer.php');
+
+		$mail             = new PHPMailer();
+
+		$body             = $message;
+		$body             = eregi_replace("[\]",'',$body);
+
+		$mail->IsSMTP(); // telling the class to use SMTP
+		$mail->Host       = $smtpHost; // SMTP server
+		$mail->CharSet='UTF-8';
+		//$mail->SMTPDebug  = 2;                     // enables SMTP debug information (for testing)
+		// 1 = errors and messages
+		// 2 = messages only
+		$mail->SMTPAuth   = ($smtpAuth=='1')?true:false;                  // enable SMTP authentication
+                $mail->SMTPSecure = $smtpSecure;
+		$mail->Host       = $smtpHost; // sets the SMTP server
+		$mail->Port       = $smtpPort;                    // set the SMTP port for the GMAIL server
+		$mail->Username   = $smtpUser; // SMTP account username
+		$mail->Password   = $smtpPass;        // SMTP account password
+
+		$mail->SetFrom($from, $from);
+
+		$mail->AddReplyTo($from,$from);
+
+		$mail->Subject    = $subject;
+
+		$mail->AltBody    = $altMessage; // optional, comment out and test
+
+		$mail->MsgHTML($body);
+
+		$mail->AddAddress($to, $to);
+
+		if(!$mail->Send()) {
+			return false;
+		} else {
+			return true;
+		}
+
+
+	}
+
+	public function getMenuLink($menu){
+		$result=array();
+		$result[0]='/site/'.$menu->link;
+		$params=$menu->params;
+		if($menu->type==ACMS_LINK_EXTERNAL){
+			return $menu->link;
+		}else{
+			if(isset($params))
+			{
+				if($params!=''){
+					if($menu->link=="spage")
+						$result['view']=$params;
+					else if($menu->link=="news")
+						$result['idCat']=$params;
+					else if($menu->link=="video"){
+						if($params!=''){
+							$result['playlist']=$params;
+						}
+					}else{
+						$result['id']=$params;
+					}
+				}
+			}
+
+			$titulo=ACMS::getTitle($menu);
+			$titulo=str_replace(' ','_',$titulo);
+			$result['title']=$titulo;
+			$result['idm']=$menu->idMenu;
+			
+			return $result;
+		}
+	}
+
+	public static function strleft($s1, $s2) { return substr($s1, 0, strpos($s1, $s2)); }
+
+	public static function selfURL(){ 
+		if(!isset($_SERVER['REQUEST_URI'])){ 
+			$serverrequri = $_SERVER['PHP_SELF']; 
+		}else{ 
+			$serverrequri = $_SERVER['REQUEST_URI']; 
+		} 
+		$s = empty($_SERVER["HTTPS"]) ? '' : ($_SERVER["HTTPS"] == "on") ? "s" : ""; 
+		$protocol = ACMS::strleft(strtolower($_SERVER["SERVER_PROTOCOL"]), "/").$s; 
+		$port = ($_SERVER["SERVER_PORT"] == "80") ? "" : (":".$_SERVER["SERVER_PORT"]); 
+		return $protocol."://".$_SERVER['SERVER_NAME'].$port.$serverrequri; 
+	}
+        
+        public static function getFrontEndThemeUrl(){
+            //Cambiamos un segundo al tema frontend
+		$themeActual=Yii::app()->theme;
+		Yii::app()->theme=Yii::app()->params['frontendTheme'];
+		$themePath= Yii::app()->theme->baseUrl ;
+		Yii::app()->theme=$themeActual;
+                return $themePath;
+        }
+	public static function getThemeXMLDoc(){
+		$doc = new DOMDocument();
+		//Cambiamos un segundo al tema frontend
+		$themeActual=Yii::app()->theme;
+		Yii::app()->theme=Yii::app()->params['frontendTheme'];
+		$themeXML= Yii::app()->theme->basePath."/theme.xml" ;
+		Yii::app()->theme=$themeActual;
+		if(is_readable($themeXML))
+			if($doc->load($themeXML))
+				return $doc;
+			else
+				return null;
+		else{
+			Yii::log('Error de lectura del archivo '.$themeXML,'error','application');
+			return null;	
+		}
+	}
+	public static function getThemeName(){
+  		$themeName='';
+		$doc=ACMS::getThemeXMLDoc();
+
+		if($doc){
+			$themeNames=$doc->getElementsByTagName('themeName');
+			$themeName=$themeNames->item(0)->nodeValue;
+		}
+		return $themeName;
+		
+	}
+	public static function getThemeAuthor(){
+  		$authorName='';
+		$doc=ACMS::getThemeXMLDoc();
+	
+		if($doc){
+			$authorNames=$doc->getElementsByTagName('author');
+			$authorName=$authorNames->item(0)->nodeValue;
+		}
+		return $authorName;
+		
+	}
+
+	public static function getBannersCategories(){
+		$banners=array();
+		$doc=ACMS::getThemeXMLDoc();
+		if($doc){
+			$themeBanners=$doc->getElementsByTagName('banner');
+			foreach($themeBanners as $item){
+				$idItem=$item->getElementsByTagName('id');
+				$id=$idItem->item(0)->nodeValue;
+				$valueItem=$item->getElementsByTagName('bannerName');
+				$value=$valueItem->item(0)->nodeValue;
+
+				$banners[$id]=$value;
+			}
+		}
+		return $banners;
+	}
+
+        public static function getMenusCategories(){
+		$menus=array();
+		$doc=ACMS::getThemeXMLDoc();
+		if($doc){
+			$themeMenus=$doc->getElementsByTagName('menu');
+			foreach($themeMenus as $item){
+				$idItem=$item->getElementsByTagName('id');
+				$id=$idItem->item(0)->nodeValue;
+				$valueItem=$item->getElementsByTagName('menuName');
+				$value=$valueItem->item(0)->nodeValue;
+
+				$menus[$id]=$value;
+			}
+		}
+		return $menus;
+	}
+        /**
+         * Get each category template for admin category selection
+         * 
+         * @return array of id and value template categories
+         */
+        public static function getTemplates_Categories(){
+		$data=array();
+		$doc=ACMS::getThemeXMLDoc();
+		if($doc){
+			$themeMenus=$doc->getElementsByTagName('categorytemplate');
+			foreach($themeMenus as $item){
+				$idItem=$item->getElementsByTagName('id');
+				$id=$idItem->item(0)->nodeValue;
+				$valueItem=$item->getElementsByTagName('name');
+				$value=$valueItem->item(0)->nodeValue;
+
+				$data[$id]=$value;
+			}
+		}
+		return $data;
+	}
+        
+        /**
+         * Get each page template for admin page template selection
+         * 
+         * @return array of id and value template page
+         */
+        public static function getTemplates_Page(){
+		$data=array();
+		$doc=ACMS::getThemeXMLDoc();
+		if($doc){
+			$themeMenus=$doc->getElementsByTagName('pagetemplate');
+			foreach($themeMenus as $item){
+				$idItem=$item->getElementsByTagName('id');
+				$id=$idItem->item(0)->nodeValue;
+				$valueItem=$item->getElementsByTagName('name');
+				$value=$valueItem->item(0)->nodeValue;
+
+				$data[$id]=$value;
+			}
+		}
+		return $data;
+	}
+
+
+        /**
+         * Get either a Gravatar URL or complete image tag for a specified email address.
+         *
+         * @param string $email The email address
+         * @param string $s Size in pixels, defaults to 80px [ 1 - 512 ]
+         * @param string $d Default imageset to use [ 404 | mm | identicon | monsterid | wavatar ]
+         * @param string $r Maximum rating (inclusive) [ g | pg | r | x ]
+         * @param boole $img True to return a complete IMG tag False for just the URL
+         * @param array $atts Optional, additional key/value attributes to include in the IMG tag
+         * @return String containing either just a URL or a complete image tag
+         * @source http://gravatar.com/site/implement/images/php/
+         */
+        public static function get_gravatar( $email, $s = 80, $d = 'mm', $r = 'g', $img = false, $atts = array() ) {
+                $url = 'http://www.gravatar.com/avatar/';
+                $url .= md5( strtolower( trim( $email ) ) );
+                $url .= "?s=$s&d=$d&r=$r";
+                if ( $img ) {
+                        $url = '<img src="' . $url . '"';
+                        foreach ( $atts as $key => $val )
+                                $url .= ' ' . $key . '="' . $val . '"';
+                        $url .= ' />';
+                }
+                return $url;
+        }
+        
+        
+        
+        public static function getCountries(){
+            $datos=array();
+            $pais=  Pais::model()->findAll(new CDbCriteria(array('order'=>'PAI_NOMBRE ASC'))); 
+            $datos['0']="Todas los paises";
+            foreach ($pais as $item){
+                    $label=$item->PAI_NOMBRE;
+                    $datos[$item->PAI_ISO2]=$label;
+            }
+            return $datos;
+        }
+        
+        public static function getProvinces($country_code){
+            
+            $datos=array();
+            if(isset($country_code) && $country_code!='0'){
+                $provincias=  Provincia::model()->findAll(new CDbCriteria(array('condition'=>'cod_pais="'.$country_code.'"', 'order'=>'name ASC'))); 
+                $datos['0']="Todas las provincias";
+                foreach ($provincias as $item){
+                        $label=$item->name;
+                        $datos[$item->idProvincia]=$label;
+                }
+            }
+                return $datos;
+            
+        }
+        
+        public static function getCities($prov_cod){
+            $datos=array();
+            $ciudades=  Ciudad::model()->findAll(new CDbCriteria(array('condition'=>'Provincia_idProvincia="'.$prov_cod, 'order'=>'name ASC'))); 
+            $datos['0']="Todas las ciudades";
+            foreach ($ciudades as $item){
+                    $label=$item->name;
+                    $datos[$item->idCiudad]=$label;
+            }
+            return $datos;
+        }
+        
+        public static function strip_selected_tags_by_id_or_class($array_of_id_or_class, $text) 
+        { 
+           $name = implode('|', $array_of_id_or_class); 
+           $regex = '#<(\w+)\s[^>]*(class|id)\s*=\s*[\'"](' . $name . 
+                    ')[\'"][^>]*>.*</\\1>#isU'; 
+           return(preg_replace($regex, '', $text)); 
+        } 
+        
+        public static function sortBannersProb($a,$b){
+            if($a->prob==$b->prob)
+                    return rand(-1,1);
+            if($a->prob < $b->prob)
+                    return 1;
+            else
+                    return -1;
+        }
+        public static function sortBanners($banners){
+            usort($banners, "ACMS::sortBannersProb");
+            return $banners;
+        }
+}
+?>

@@ -1,0 +1,94 @@
+/* 
+    Document   : searchEngine
+    Created on : 13-jun-2011, 10:36:19
+    Author     : imac24
+    Description:
+        Purpose of the stylesheet follows.
+*/
+
+/* 
+   TODO customize this sample style
+   Syntax recommendation http://www.w3.org/TR/REC-CSS2/
+*/
+
+/**
+* Buscador 
+**/
+
+#searchResultsContainer{
+	display:block;
+	margin-top:25px;
+	font-family:Arial;
+}
+
+.searchResult:after {
+    content: ".";
+    display: block;
+    height: 0;
+    clear: both;
+    visibility: hidden;
+}
+
+.searchResult {display: inline-block;}
+
+/* Hides from IE-mac \*/
+* html .searchResult {height: 1%;}
+.searchResult {display: block;}
+/* End hide from IE-mac */
+
+
+.searchResult{
+	display:block;
+	border-bottom:1px solid #EDEDED;
+	padding:20px 10px 20px 10px;
+	margin-bottom:0px !important;
+	text-decoration:none !important;
+}
+.searchResult:hover, .searchResult:focus{
+	background-color:#f2f1ec;
+}
+.searchResult:hover .searchTitle{
+    text-decoration: underline;
+}
+.searchResult .num{
+	font-family:Georgia,"Lucida Grande",Arial,Helvetica,sans-serif;
+	color:#AAAAAA;
+	display:block;
+	float:left;
+	font-size:16px;
+	font-weight:bold;
+	padding-right:10px;
+	text-align:right;
+	width:40px;
+	display:block;
+	float:left;
+}
+.searchResult .searchContent{
+	display:block;
+	float:left;
+}
+.searchTitle, .searchTitle a{
+	color:#F29B18;
+	font-size:18px;
+	margin-bottom:8px;
+}
+.searchTitle b, .searchTitle a b{
+	font-size:15px;
+	color:#fff;
+	background-color:#F29B18;
+}
+.searchDescription{
+	font-size:13px;
+	color:#777777;
+}
+.searchDescription b{
+	font-size:11px;
+	color:#fff;
+	background-color:#F29B18;
+}
+.searchMetadata{
+	font-size:10px;
+	color:#777777;
+        word-wrap: break-word;
+}
+

@@ -1,0 +1,145 @@
+table.listado, .grid-view table.items {
+    border-spacing:0;
+    border-collapse:inherit;
+    
+    border-top-right-radius:6px;
+    border-top-left-radius:6px;
+    -moz-border-radius-topleft:6px;
+    -moz-border-radius-topright:6px;
+    -webkit-border-top-left-radius:6px;
+    -webkit-border-top-right-radius:6px;
+
+    border-bottom-right-radius:6px;
+    border-bottom-left-radius:6px;
+    -moz-border-radius-bottomleft:6px;
+    -moz-border-radius-bottomright:6px;
+    -webkit-border-bottom-left-radius:6px;
+    -webkit-border-bottom-right-radius:6px;
+
+
+    border-style:solid;
+    background-color:#FFFFFF;
+    border-color:#DFDFDF;
+    border-width: 1px;
+}
+
+table.listado tbody tr, .grid-view table.items tbody tr{
+    width:916px;
+    font-family:Arial;
+    font-size:12px;
+    color:#4F4C4C;
+}
+table.listado tbody tr td, .grid-view table.items tbody tr td{
+    border-top:1px solid #DFDFDF;
+    padding:5px 5px;
+    vertical-align: top;
+    word-wrap: break-word;
+}
+
+table.listado tbody tr td .title {
+    font-size: 14px;
+    font-weight: bold;
+}
+
+table.listado tbody tr td.title_table_link a{
+    font-size: 14px;
+    font-weight: bold;
+    color:#5b8396;
+}
+table.listado tbody tr td.title_table_link a:hover{
+    color:#f00;
+}
+.center{
+   text-align:center !important;
+}
+table.listado tbody tr.even, .grid-view table.items tbody tr.even{background-color:#fafafa;}
+table.listado tbody tr.odd, .grid-view table.items tbody tr.odd{background-color:#f5f5f5;}
+
+table.listado thead{
+   
+}
+table.listado thead tr, .grid-view table.items thead tr{
+    width:890px;
+    height:36px;
+    padding-left:13px;
+    padding-right:13px;
+    margin-top:8px;
+}
+table.listado thead tr th, .grid-view table.items thead tr th{
+    font-family:Arial, Helvetica, sans-serif;
+    font-weight:bold;
+    font-size:13px;
+    line-height:34px;
+    text-align:left;
+    color:#666666;
+    /*text-align:center;*/
+    background:url(img/tables/top.gif) repeat-x;
+    text-shadow:0 1px 0 rgba(255, 255, 255, 0.8);
+    padding:0px 5px;
+}
+.grid-view table.items th a{
+    color:#3490E8;
+}
+.grid-view table.items th a:hover{
+    color:#035ba3;
+}
+table.listado tfoot tr{
+	width:890px;
+	padding-bottom:10px;
+
+	border-top:2px solid #fff;
+	background:url(img/tables/foot.gif) no-repeat;
+	}
+table.listado tfoot tr th{
+	padding-top:46px;
+	padding-left:13px;
+	padding-right:13px;
+}
+
+table.listado .first{
+	padding-left:10px;
+}
+
+.grid-view table.items th, .grid-view table.items td{
+    border:none;
+}
+
+.pager{
+    text-align: right;
+    margin:10px 0px 10px 0px;
+}
+ul.yiiPager {
+    /*display:block;*/
+    clear:both;
+}
+ul.yiiPager li{
+}
+.yiiPager li.page a{
+    border:1px solid #fff !important;
+    color:#0888F4 !important;
+    height:20px !important;
+    line-height:20px !important;
+    margin-right:1px !important;
+    text-align:center !important;
+    width:20px !important;
+    display: inline-block;
+    padding:0px !important;
+    margin-left: 4px;
+}
+ul.yiiPager .selected a , .yiiPager li a:hover{
+    border:1px solid #D7D7D7 !important;
+    color:#0888F4 !important;
+    font-weight: normal !important;
+    background: transparent !important;
+}
+.yiiPager li.previous a,
+.yiiPager li.next a,
+.yiiPager li.first a,
+.yiiPager li.last a{
+color:#0888F4 !important;
+font-weight: normal !important;
+border:none !important;
+}
+.yiiPager li.hidden{
+    display:none;
+}

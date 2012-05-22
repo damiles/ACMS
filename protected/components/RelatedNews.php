@@ -1,0 +1,117 @@
+<?php 
+Yii::import('zii.widgets.CPortlet');
+
+/**
+ * Se recogen las últimas 100 noticias de la categoria.
+ * De todos los titulares y tags se crea un diccionario W eliminando los stopwords.
+ * Un Articulo tiene un definido w={0,1]^d como 1 presencia de la palabra w_i en el diccionario W y viceversa siendo d el numero de palabras del diccionario.
+ * 
+ * Pr(B | A)=(sum (from i=0 to d) w_ai*w_bi) / d
+ */
+class RelatedNews extends CPortlet
+{
+	public $noticia;
+        public $titular="";
+        public $title="Noticias relacionadas";
+        
+	protected function renderContent()
+    {
+                $cond='type="news" and published=true and date <=NOW()';
+                $with=array();
+                $join="";
+		if(isset($_GET['idCat'])){
+			if($_GET['idCat']!='0'){
+                            /**
+                             * Recogemos todos los identificadores 
+                             * de la categoria seleccionada y sus hijos
+                             */
+                            $categoria=ArticleCategory::model()->findByPk($_GET['idCat']);
+                            $categorias=ACMS::getChildCategories($categoria);
+                            $catCond=join(' or category=',$categorias);
+                            $cond=$cond.' and (category='.$catCond.')';
+                        }
+                }
+                $condicion=  new CDbCriteria;
+                $condicion->join=$join;
+                $condicion->with=$with;
+                $condicion->condition=$cond;
+                $condicion->order="date DESC";
+                $condicion->limit=100;
+                
+ 		$news=Article::model()->findAll($condicion);
+                
+                
+                $this->titular=ACMS::getTitle($this->noticia);
+                
+                
+                $words=array();
+                $idLinks=array();
+                foreach($news as $item){
+                    $titleNews=ACMS::getTitle($item);
+                    $titleWords=split(" ", $titleNews);
+                    foreach($item->tags as $tag)
+                        array_push ($titleWords, $tag->tag);
+                    
+                    //Eliminamos los stopwords
+                    $titleWords=array_diff($titleWords, StopWords::getAllStopWords());
+                    foreach($titleWords as $wordItem){
+                        if(!isset ($words[$wordItem]))
+                            $words[$wordItem]=array();
+                        array_push($words[$wordItem],$item->idArticle);
+                    }
+                    $idLinks[$item->idArticle]=1;
+                }
+                
+                $total=count($words);
+                
+                //Recogemos las palabras del titulo a buscar
+                $theTitleWords=split(" ", $this->titular);
+                foreach($this->noticia->tags as $tag)
+                        array_push ($theTitleWords, $tag->tag);
+                
+                $theTitleWords=array_diff($theTitleWords, StopWords::getAllStopWords());
+                
+                
+                
+                foreach($theTitleWords as $witem){
+                    if(isset($words[$witem])){
+                        $links=$words[$witem];
+                        foreach($links as $l){
+                            if(isset ($idLinks[$l]))
+                                $idLinks[$l]=$idLinks[$l]+1;
+                            else
+                                $idLinks[$l]=1;
+                        }
+                    }
+                }
+                
+                foreach($idLinks as $k=>$l){
+                    $idLinks[$k]=$idLinks[$k]/$total;
+                    //echo "Id: ".$k." p: ".$idLinks[$k]."<br/>";
+                }               
+                arsort($idLinks);
+                
+                //echo "total: ".$total;
+                
+ 		
+                echo "<ul class='not_rel'>";
+                $j=0;
+ 		foreach ($idLinks as $i=>$idLink){
+                    //Omitimos la primera ya que por estadistica
+                    //la máxima probabilidad la va ha tener misma noticia
+                    if($j>0){
+                        if($j>6)
+                            break;
+                        $not=Article::model()->findByPk($i);
+                        echo "<li >";
+                        $notTitle=ACMS::getTitle($not);
+                        echo CHtml::link($notTitle,array('site/page','id'=>$not->idArticle, 'idm'=>$_GET['idm'],'idCat'=>$_GET['idCat'],'title'=>$notTitle ));
+                        echo "</li>";			
+                    }
+                    $j++;
+ 		}    	
+ 		echo "</ul>";
+                
+    }
+}
+

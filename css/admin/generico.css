@@ -1,0 +1,62 @@
+/*------------------------------------------------------------------
+ * [Layout Stylesheet]
+ *
+ * Project:	ACMS
+ * Version:	0.1
+ * Last change:	
+ * Assigned to:	David Millan
+ * Primary use:	
+ * Description: Definición de posición de los elementos
+ *				Todas los estilos que se creen deberán empezar por lay_
+ *				exceptuando aquellos que hagan referencia a un htmlTag
+ * -------------------------------------------------------------------*/
+h3{
+	font-family:"Verdana";
+	font-size:14px;	
+	color:#20AFE0;
+	font-weight:bold;
+	}
+h2{
+	display:block;
+	font-family:Verdana;
+	font-size:24px;
+	color:#20afe0;
+	margin-top:30px;
+	margin-bottom:25px;
+	font-weight:normal;
+	}
+.destacado{
+	color:#20afe0;
+	}
+.titular_de_listado{
+	display:block;
+	width:506px;
+	font-family:Verdana;
+	font-size:16px;
+	color:#707070;
+	font-weight:bold;
+	padding-bottom:20px;
+	background:url(../images/fondo_numeros.png) bottom no-repeat;
+	}
+a{
+	color:#20AFE0;
+}
+a:hover{
+	text-decoration: underline;
+}
+
+.lista_enlaces li{
+	display:block;
+	border-bottom:1px solid #DBDBDB;
+	padding:8px 0px;
+}
+
+.lista_enlaces li a{
+	font-size:11px;
+	text-transform:uppercase;
+	font-weight:bold;
+	font-family:Verdana;
+}
+
+ul li{background:transparent url(../images/blue_bull.png) no-repeat scroll 0 5px; color:#666666; font-family:Verdana; font-size:12px; line-height:18px; padding-left:15px;}
+	   		

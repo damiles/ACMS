@@ -1,0 +1,270 @@
+/*------------------------------------------------------------------
+ * [Layout Stylesheet]
+ *
+ * Project:	Project Jose Iborra
+ * Version:	0.1
+ * Last change:	
+ * Assigned to:	David Millan
+ * Primary use:	
+ * Description: Definición de posición de los elementos
+ *				Todas los estilos que se creen deberán empezar por lay_
+ *				exceptuando aquellos que hagan referencia a un htmlTag
+ * -------------------------------------------------------------------*/
+
+/*---------------------------
+* Clear fix
+* --------------------------- */
+.clearfix:after {
+    content: ".";
+    display: block;
+    height: 0;
+    clear: both;
+    visibility: hidden;
+}
+
+.clearfix {display: inline-block;}
+
+/* Hides from IE-mac \*/
+* html .clearfix {height: 1%;}
+.clearfix {display: block;}
+/* End hide from IE-mac */
+
+
+/*------------------------------------------------------------------
+* Estilos Generales
+* -------------------------------------------------------------------*/
+ .hidde{display:none;}
+ body{
+	 background:url(../images/fondo.jpg) repeat-x;
+         font-family: VegurRegular, Arial, Helvetica, sans-serif;
+	font-size:12px;
+        color:#7e7b7b;
+}
+
+
+p{
+    font-size:12px;
+    line-height:15px;
+    color:#7e7b7b;
+    _padding-bottom:0px;
+}
+a{color:#7e7b7b;}
+a:hover{color:#f00;}
+h1{
+    font-size:30px;
+    color:#444242;
+    font-weight:bold;
+}
+h2{
+    font-family: VegurExtraLight, Arial, Helvetica, sans-serif;
+    font-size:30px;
+    color:#303030;
+    font-weight:bold;
+}
+h3{
+    font-family: VegurExtraLight, Arial, Helvetica, sans-serif;
+    color:#444242;
+    font-size:20px;
+    font-weight:bold;
+}
+
+
+/*
+ * Layout
+ */
+
+#wrapper{
+	 display:block;
+	 width:897px;
+	 margin:0 auto;
+}
+
+    #header{
+       position:relative;
+       width:100%;
+       height:111px;
+    }
+    #content{
+        padding-top:30px;
+        width:100%;
+    }
+
+    #content:after {
+        content: ".";
+        display: block;
+        height: 0;
+        clear: both;
+        visibility: hidden;
+    }
+
+    #content {display: inline-block;}
+
+    /* Hides from IE-mac \*/
+    * html #content {height: 1%;}
+    #content {display: block;}
+    /* End hide from IE-mac */
+
+
+        /*
+        * Main content for  1 column
+        */
+        #maincontent{
+            width:897px;
+        }
+
+        /*
+        * Main content and sidebar for  2 column
+        */
+        #sidebar{
+            width:172px;
+            float:right;
+            margin-right: 18px;
+        }
+        #maincontent_2col{
+            float:left;
+            width: 689px;
+            margin-left: 18px;
+        }
+
+        /*
+        * Main content and sidebars for  3 column
+        */
+        #sidebar1{
+            width:150px;
+            float:left;
+        }
+        #sidebar2{
+            width:150px;
+            float:left;
+        }
+        #maincontent_3col{
+            float:left;
+            width: 597px;
+        }
+
+    /*
+    * Footer
+    */
+
+    #footer{
+        display:block;
+	width:779px;
+	margin-top:30px;
+        margin-bottom:50px;
+	padding-left:118px;
+	padding-top:12px;
+	background:url(../images/cierre.gif) no-repeat;
+    }
+
+
+/*********************************************
+ * Cabecera 
+ * ********************************************/
+/* Top menu */
+#logo{
+    position:absolute; top:0px; left:0px;
+    width:191px; height: 53px;
+    background:url(../images/logo.gif) top no-repeat;
+    text-indent:-9999px;
+}
+#topmenu{
+	display:block;
+	position:absolute;
+	top:0px;
+	right:0px;
+	height:70px;
+	width:300px;
+	}
+
+#topmenu ul{
+	display:inline;
+	float:right;
+}
+#topmenu ul li{
+	display:inline;
+	float:left;
+        margin-left:8px;
+	}
+/* Main menu */
+#mainmenu{
+    position:absolute; top:72px; left:0px;
+    width:887px;/*8897*/
+	padding-left:10px;
+    height:39px;
+    background:url(../images/menu.gif) top no-repeat;
+}
+/*#mainmenu ul {
+    display:block;
+    height:39px;
+    margin-left: 15px;
+}
+#mainmenu ul li{
+    display:inline;
+    float:left;
+    margin-right: 10px;
+}
+#mainmenu ul li a{
+    font-family: VegurExtraLight, Arial, Helvetica, sans-serif;
+    font-size:16px;
+    line-height: 39px;
+    color: #fff;
+    text-decoration:none;
+}
+#mainmenu ul li a:hover, #mainmenu ul li a.active{
+    color:#f00;
+}
+*/
+/* buscador */
+#buscador{
+	display:inline;
+	width:136px;
+	height:15px;
+	float:left;
+	margin-left:163px;
+	margin-top:11px;
+	/*_margin-left:125px;
+	_margin-top:9px;*/
+	}
+.search{
+	display:block;
+	width:136px;
+	height:15px;
+	color:#808080;
+	font-family:"Myriad Pro", Arial, "Hedera ITC Std";
+	font-weight:bold;
+	font-size:12px;
+	border:none;
+	background:none;
+	}
+
+	
+	
+	
+/*********************************************
+ * Cierre 
+ * ********************************************/
+
+#footermenu ul li{
+	display:inline;
+        margin-right: 8px;
+	}
+	
+	
+	
+/*********************************************
+ * News
+ * ********************************************/
+	
+.news{margin-bottom:60px;}
+.summary{}
+.pager{}
+
+/*********************************************
+ * LangSel
+ * ********************************************/
+#langSel{}
+#langSel #lang_es{}
+#langSel #lang_en{}
+#langSel .on{
+color:#FF0000;	
+}

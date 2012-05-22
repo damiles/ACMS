@@ -1,0 +1,15 @@
+/*------------------------------------------------------------------
+ * [Framework Stylesheet]
+ *
+ * Project:	Default Theme
+ * Version:	0.1
+ * Last change:
+ * Assigned to:	David Millan
+ * Primary use:
+ * Description: Framework of default theme.
+ *
+ * -------------------------------------------------------------------*/
+@import "reset.css";
+@import "fonts.css";
+@import "layout.css";
+@import "form.css";
