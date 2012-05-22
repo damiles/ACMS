@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<theme>
+	<themeName>Classic</themeName>
+	<author>Artres Comunicacion Valencia</author>
+        <menus>
+            <menu><id>0</id><menuName>Menu principal</menuName></menu>
+            <menu><id>1</id><menuName>Menu superior</menuName></menu>
+            <menu><id>2</id><menuName>Menu inferior</menuName></menu>
+            <menu><id>3</id><menuName>Menu Lateral</menuName></menu>
+        </menus>
+	<banners>
+		<banner>
+			<id>0</id>
+			<bannerName>Pagina principal</bannerName>
+		</banner>
+		<banner>
+			<id>1</id>
+			<bannerName>Interiores Lateral</bannerName>
+		</banner>
+	</banners>
+</theme>

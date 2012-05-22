@@ -1,0 +1,79 @@
+body{
+	background: #000;
+}
+p,a,a:visited,body,h1,h2,h3,h4,h5,h6{
+	color:#222;
+	font-family: 'Share', cursive;
+}
+
+.wrapper{
+	width:100%;
+	margin: 0 auto;
+	background:#efefef url(../images/noise.png);
+}
+header{
+	height:100px;
+	position:relative;
+	background:#000;
+	margin-bottom:10px;
+	-webkit-box-shadow: 0px 0px 10px 1px rgba(0, 0, 0, 0.5);
+	-moz-box-shadow: 0px 0px 10px 1px rgba(0, 0, 0, 0.5);
+	box-shadow: 0px 0px 10px 1px rgba(0, 0, 0, 0.5);
+}
+	header h1#logo{
+		position:absolute;
+		top:0px; left:0px;
+		display:block;
+		/*text-indent:-9999px;*/
+		line-height:100px;
+		text-align:center;
+		width:250px;
+		height:100px;
+		font-size:26px;
+		font-weight:bold;
+		color:#65A1DE;
+	}
+	header nav#topmenu{
+		float:right;
+		
+	}
+#mainmenu{
+	margin-top:30px;
+	float:right;
+	display:block;
+	/*width:550px;*/
+	background: #333;
+	height:40px;
+
+	-moz-border-radius-topleft: 10px;
+	-moz-border-radius-topright: 0px;
+	-moz-border-radius-bottomright: 0px;
+	-moz-border-radius-bottomleft: 10px;
+	-webkit-border-radius: 10px 0px 0px 10px;
+	border-radius: 10px 0px 0px 10px;
+}
+#mainmenu ul li a{
+	display:block;
+	line-height:40px;
+	height:40px;
+	float:left;
+	padding:0 20px;
+	border-right:1px solid #000;
+	color:#65A1DE;
+	text-shadow: 1px 1px 0px #000;
+	filter: dropshadow(color=#000, offx=1, offy=1);
+}
+#mainmenu ul li a:hover{
+	color:#eee;
+}
+
+
+footer{
+	height:100px;
+	position:relative;
+	background:#000;
+	margin-top:10px;
+	-webkit-box-shadow: 0px 0px 10px 1px rgba(0, 0, 0, 0.5);
+	-moz-box-shadow: 0px 0px 10px 1px rgba(0, 0, 0, 0.5);
+	box-shadow: 0px 0px 10px 1px rgba(0, 0, 0, 0.5);
+}
