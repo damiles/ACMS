@@ -34,6 +34,9 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
+$popupG='';
+if(isset($_GET['popup']))
+	$popupG='&popup='.$_GET['popup'];
 
     echo "<div id='cont_g_$item->idCategory'>";
 
@@ -44,7 +47,7 @@
 	echo "<p class='info'>Pulsa sobre el nombre de la categoría para cambiarla.</p>";
 	//echo "<div><a href='#TB_inline?inlineId=form_$item->idCategory&height=125&width=350' class='icon_add' rel='sexylightbox' >A&ntilde;adir imagen</a></div>";
 	echo "<div class='row'>";
-	echo "<a onclick='return confirmDelete();' href='admin.php?r=media/deleteCategory&idCat=$item->idCategory&type=$item->type' class='buttonDelete' style='color:#fff'>Borrar categoría</a>";
+	echo "<a onclick='return confirmDelete();' href='admin.php?r=media/deleteCategory&idCat=$item->idCategory&type=$item->type".$popupG."' class='buttonDelete' style='color:#fff'>Borrar categoría</a>";
 	//echo CHtml::linkButton('Borrar categoría',array('submit'=>array('deleteCategory','idCat'=>$item->idCategory),'confirm'=>'¿Estás seguro de eliminar esta categiría y todas las imagenes contennidas en ella?','class'=>'buttonDelete'));
 	echo "</div></fieldset>";
 	echo "</div>";
@@ -103,13 +106,35 @@
 			        <span class="txt" id="FileSize_g<?php echo $item->idCategory ?>"><?php echo Utiles::formatBytes(filesize(Yii::app()->params['upload'].$firstImg->url)) ?></span>
 			    </div>
 			    <div class="acciones clearfix" style="padding-left:18px;margin-top:8px;">
-			    	<a class="button" style="color:#fff;" href="?r=media/download&descarga=<?php echo $firstImg->url;?>" id="descarga_g<?php echo $item->idCategory ?>">Utilizar</a>
+				<?php if(isset($_GET['popup'])){ ?>
+					<a class="button" style="color:#fff;" href="upload/<?php echo $firstImg->url;?>" id="descarga_g<?php echo $item->idCategory ?>">Utilizar</a>
+				<?php }else{ ?>			    	
+				<a class="button" style="color:#fff;" href="--?r=media/download&descarga=<?php echo $firstImg->url;?>" id="descarga_g<?php echo $item->idCategory ?>">Descargar</a>
+				<?php } ?>
 				<a class="buttonDelete" style="color:#fff;" href="<?php echo $firstImg->url;?>"  id="borrar_g<?php echo $item->idCategory ?>">Borrar</a>
 			    </div>
 
 	         <script type="text/javascript">
 				/*<![CDATA[*/
 				jQuery(document).ready(function() {
+
+				<?php if(isset($_GET['popup'])): ?>
+					jQuery('#descarga_g<?php echo $item->idCategory?>').click(
+						function(){
+							var filename=jQuery(this).attr('href');
+							 var dot = filename.lastIndexOf("."); 
+							var extension = filename.substr(dot,filename.length);
+							var name=filename.substr(0, dot);
+							var minFile=name+"_low"+extension
+							jQuery( '#<?php echo $_GET['popup'] ?>', window.opener.document ).val(filename);
+							jQuery( '#img_<?php echo $_GET['popup'] ?>', window.opener.document ).attr('src',minFile);
+							//jQuery( '#link_<?php echo $_GET['popup'] ?>', window.opener.document ).html(jQuery(this).attr('href'));
+							self.close();
+							return false;
+						}
+					);
+				<?php endif; ?>
+
 				jQuery('#borrar_g<?php echo $item->idCategory?>').click(
 						function(){
 							jQuery.ajax({
@@ -130,7 +155,7 @@
           </div>
 
 
-<!--MUESTRA CON IMAGENES-->
+
 	  <div id="listado" style="display:none; width:100%"> 
 	  	<?php $this->widget('zii.widgets.grid.CGridView', array(
 			'id'=>'listadoImagenesGrid',
@@ -149,7 +174,7 @@
 		)); ?>
 	  </div>
 
-<!--MUESTRA CON IMAGENES-->
+
 	  <div id="tabsContainer" class="tabsContainer" style="width:100%">
 		<?php   $this->widget('zii.widgets.CListView', array(
 			'dataProvider'=>$model->search(),
@@ -177,7 +202,7 @@ function confirmDelete(){
 }
 
 function updateActualTab(){
-	initGaleryAjax(<?php echo $item->idCategory?>);
+		initGaleryAjax(<?php echo $item->idCategory?>);
 }
 
 function inputs_init(){

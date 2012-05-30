@@ -1,1 +1,0 @@
-echo "<a href=\"javascript:setData('".$item->idCategory."','".$fileinfo['filename']."','".$item_arch->name."','".$fileinfo['extension']."','".Utiles::formatBytes(filesize(Yii::app()->params['upload'].$item_arch->url))."');\"><img src='upload/".$fileinfo['filename']."_low.".$fileinfo['extension']."'></a>";

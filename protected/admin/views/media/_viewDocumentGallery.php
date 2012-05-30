@@ -158,7 +158,7 @@ function deleteLinksInit(){
 							$.ajax({
 								'beforeSend':function(){},
 								'complete':function(){},
-								'success':function(html){initGaleryAjax(<?php echo $item->idCategory?>)},
+								'success':function(html){$('#fila_'+theid).remove();},
 								'type':'POST',
 								'url':'<?php echo $this->createUrl('media/deleteFile') ?>',
 								'cache':false,

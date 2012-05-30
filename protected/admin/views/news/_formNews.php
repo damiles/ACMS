@@ -76,13 +76,15 @@ tinyMCE.init({
 	
 		<div class="row">
 		<?php echo CHtml::activeLabelEx($model,'img_portada');
-		echo CHtml::activeDropDownList($model,'img_portada',ACMS::getImagenList(), array('style'=>'width:100%'));
+		//echo CHtml::activeDropDownList($model,'img_portada',ACMS::getImagenList(), array('style'=>'width:100%'));
+		$this->widget('ImageSelector',array('model'=>$model, 'object'=>'img_portada')); 
 		echo CHtml::error($model,'img_portada');?>    
 		</div>
                 
                 <div class="row">
 		<?php echo CHtml::activeLabelEx($model,'banner');
-		echo CHtml::activeDropDownList($model,'banner',ACMS::getImagenList(), array('style'=>'width:100%'));
+		//echo CHtml::activeDropDownList($model,'banner',ACMS::getImagenList(), array('style'=>'width:100%'));
+		$this->widget('ImageSelector',array('model'=>$model, 'object'=>'banner')); 
 		echo CHtml::error($model,'banner');?>    
 		</div>
        

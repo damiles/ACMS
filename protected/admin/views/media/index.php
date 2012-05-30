@@ -1,4 +1,7 @@
 <?php
+if(isset($_GET['popup'])):
+	$this->layout='blank';
+endif;
 //$this->layout='admin';
 /*
 $cs=Yii::app()->clientScript;
@@ -36,10 +39,14 @@ Documentos
 			    <ul id="menu_categorias">
 				<?php
 				    $firstGalery;
+				    $popup='';
+				    if(isset($_GET['popup']))
+					$popup='&popup='.$_GET['popup'];
 				    foreach($galeria as $i=>$item){
 					if($i==0)
 					    $firstGalery=$item;
-					    echo "<li><a href='".Yii::app()->getBaseUrl()."/admin.php?r=media/".$urlToLoad."&id=".$item->idCategory."' class='ajaxLink'><span id='tabitem_".$item->idCategory."'>".$item->name."</span></a></li>";
+					    
+					    echo "<li><a href='".Yii::app()->getBaseUrl()."/admin.php?r=media/".$urlToLoad."&id=".$item->idCategory.$popup."' class='ajaxLink'><span id='tabitem_".$item->idCategory."'>".$item->name."</span></a></li>";
 				    }
 				   
 
@@ -93,7 +100,8 @@ function initGaleryAjax(id){
 	$('#tabitem_'+id).parent().addClass('active');
 
 	//Iniciamos la primera galeria
-	var firstLink="<?php echo Yii::app()->getBaseUrl()."/admin.php?r=media/".$urlToLoad."&id=" ?>"+id;
+	
+	var firstLink="<?php echo Yii::app()->getBaseUrl()."/admin.php?r=media/".$urlToLoad."&id=" ?>"+id+"<?php echo $popup ?>";
 	jQuery.ajax({'url':firstLink,'cache':false,'success':function(html){
 	        $("#contentTab").html(html);	   
 	        
@@ -113,7 +121,11 @@ function setData(galeria, file, nombre, ext, size){
     $('#FileName_g'+galeria).html(nombre);
     $('#FileType_g'+galeria).html(ext);
     $('#FileSize_g'+galeria).html(size);
+    <?php if(isset($_GET['popup'])): ?>
+        $('#descarga_g'+galeria).attr("href", "upload/"+file+"."+ext);
+    <?php else: ?>
     $('#descarga_g'+galeria).attr("href", "?r=media/download&descarga="+file+"."+ext);
+    <?php endif; ?>
     $('#borrar_g'+galeria).attr("href",file+"."+ext);
     
 }
