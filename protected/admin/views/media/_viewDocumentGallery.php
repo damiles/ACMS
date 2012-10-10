@@ -1,9 +1,18 @@
 <?php
+if(isset($_GET["tinyMCE"])){
+	$cs=Yii::app()->clientScript;
+	$cs->registerScriptFile(Yii::app()->request->baseUrl.'/js/tiny_mce/tiny_mce_popup.js', CClientScript::POS_HEAD);
+}
+?>
+<?php
 /* 
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-
+$popupG='';
+if(isset($_GET['popup'])){
+	$popupG='&popup='.$_GET['popup'];
+}
     echo "<div id='cont_g_$item->idCategory'>";
 
 	echo "<div class='row'><div class='col50' style='margin-right:1%;'>";
@@ -13,7 +22,7 @@
 	echo "<p class='info'>Pulsa sobre el nombre de la categoría para cambiarla.</p>";
 		//echo "<div><a href='#TB_inline?inlineId=form_$item->idCategory&height=125&width=350' class='icon_add' rel='sexylightbox' >A&ntilde;adir imagen</a></div>";
 	echo "<div class='row'>";
-	echo "<a  onclick='return confirmDelete();'  href='admin.php?r=media/deleteCategory&idCat=$item->idCategory&type=$item->type' class='buttonDelete' style='color:#fff'>Borrar categoría</a>";
+	echo "<a  onclick='return confirmDelete();'  href='admin.php?r=media/deleteCategory&idCat=$item->idCategory&type=$item->type".$popupG."' class='buttonDelete' style='color:#fff'>Borrar categoría</a>";
 	//echo CHtml::linkButton('Borrar categoría',array('submit'=>array('deleteCategory','idCat'=>$item->idCategory),'confirm'=>'¿Estás seguro de eliminar esta categiría y todas las imagenes contennidas en ella?','class'=>'buttonDelete'));
 	echo "</div></fieldset></div>";
 
@@ -56,32 +65,70 @@
 			
 	    
         <div class="row">
-	        <table class='listado' width="100%">
-						<thead>
-							<tr><th width="24" class="center">Id</th><th>Descripción</th><th width="75">Tipo</th><th width="100">Tamaño</th><th width="100">Acciones</th></tr>
-						</thead>
-						<tbody class='contenido_tabla'>
-	        <?php
-	        foreach($item->files as $index=>$item_arch){
-		            $fileinfo=pathinfo(Yii::app()->params['upload'].$item_arch->url);
-								$class=(($index%2)==0)? "even":"odd";
-							echo "<tr id='fila_$item_arch->idFile' class='".$class."'>";
-							echo "<td class='center'>$item_arch->idFile</td>";
-							echo "<td class='title_table_link'><a href='upload/$item_arch->url' target='_blank'>$item_arch->description</a></td>";
-							echo "<td>".$fileinfo['extension']."</td>";
-							echo "<td>".Utiles::formatBytes(filesize(Yii::app()->params['upload'].$item_arch->url))."</td>";
-							echo "<td><a href='$item_arch->url' id='$item_arch->idFile' class='delete' style='color:#ff0000'>Borrar</a></td></tr>";
+        	<?php $this->widget('zii.widgets.grid.CGridView', array(
+			'id'=>'listadoImagenesGrid',
+			'dataProvider'=>$model->search(10),
+			'filter'=>$model,
+			'columns'=>array(
+				array(
+				    'name'=>'name',
+				    'value'=>array($model, 'gridLinkDocName'),
+      				    'type'=>'raw',
+				    ),
+				'description',
+				'date',
+				array(            // display a column with "view", "update" and "delete" buttons
+		            'class'=>'CButtonColumn',
+		            'template'=>'{delete}',
+		        ),
+			),
+		)); ?>
+        	
+        	
+        	
+	       		
+			<script type="text/javascript">
+				/*<![CDATA[*/
+				
 
+				<?php if(isset($_GET['popup'])): ?>
+					jQuery('.descarga_g<?php echo $item->idCategory?>').live('click',
+						function(){
+							var filename=jQuery(this).attr('href');
+							jQuery( '#<?php echo $_GET['popup'] ?>', window.opener.document ).val(filename);
+							self.close();
+							return false;
+						}
+					);
+				<?php endif; ?>
+
+				jQuery(document).ready(function() {
+
+
+				jQuery('#borrar_g<?php echo $item->idCategory?>').click(
+						function(){
+							jQuery.ajax({
+								'beforeSend':function(){},
+								'complete':function(){},
+								'success':function(html){initGaleryAjax(<?php echo $item->idCategory?>)},
+								'type':'POST',
+								'url':'<?php echo $this->createUrl('media/deleteFile') ?>',
+								'cache':false,
+								'data':({id: $('#borrar_g<?php echo $item->idCategory ?>').attr("href")})
+								});
+							return false;
+						});
+				});
+				/*]]>*/
+				</script>
 	
-	        }
+	        <?php }
 	
 	        ?>
-						</tbody>
+						
         </div>
             <?php
-         }else{
-             echo "<p>Esta colecci&oacute;n no contiene documentos</p>";
-         }
+        
 
         echo "</div>";
 
@@ -94,7 +141,8 @@ function confirmDelete(){
 }
 
 function updateActualTab(){
-	$("#tabs").tabs("load",$("#tabs").tabs("option","selected"));
+	//$("#tabs").tabs("load",$("#tabs").tabs("option","selected"));
+	initGaleryAjax(<?php echo $item->idCategory?>);
 }
 
 function inputs_init(){
@@ -173,10 +221,58 @@ function deleteLinksInit(){
 jQuery(document).ready(function() {
 	
 	inputs_init();
+	<?php if(isset($_GET["tinyMCE"])){ ?>
+		tinyMCEPopup.executeOnLoad('init();')
 
+
+
+		var FileBrowserDialogue = {
+		    init : function () {
+			// Here goes your code for setting your custom things onLoad.
+		    },
+		    mySubmit : function () {
+			var URL = fileSelected;
+			var win = tinyMCEPopup.getWindowArg("window");
+
+			// insert information now
+			win.document.getElementById(tinyMCEPopup.getWindowArg("input")).value = URL;
+			
+
+			// are we an image browser
+			if (typeof(win.ImageDialog) != "undefined") {
+			    // we are, so update image dimensions...
+			    if (win.ImageDialog.getImageData)
+				win.ImageDialog.getImageData();
+
+			    // ... and preview if necessary
+			    if (win.ImageDialog.showPreviewImage)
+				win.ImageDialog.showPreviewImage(URL);
+			}
+
+			// close popup window
+			tinyMCEPopup.close();
+		    }
+		}
+
+		tinyMCEPopup.onInit.add(FileBrowserDialogue.init, FileBrowserDialogue);
+
+		
+						
+		jQuery('.descarga_g<?php echo $item->idCategory?>').live('click',
+			function(){
+				fileSelected=jQuery(this).attr('href');
+				descrSelected=jQuery(this).attr('title');
+				FileBrowserDialogue.mySubmit();
+				return false;
+			}
+		);
+
+	<?php } ?>
 	deleteLinksInit();
 
 });
+
+
 
 
 	

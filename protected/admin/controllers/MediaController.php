@@ -51,7 +51,7 @@ public $menu;
 				     ),
 				array('allow', // allow authenticate users
 					'actions'=>array('index','logout','newCategoryAjax',
-						'viewImageGallery','viewDocumentGallery', 'updateCategory', 'uploadFile', 'download', 'deleteFile','imageList', '_ajaxGenericContent', 'deleteCategory' ),
+						'viewImageGallery','viewDocumentGallery', 'updateCategory', 'uploadFile', 'download', 'deleteFile','imageList', '_ajaxGenericContent', 'deleteCategory','updateCategoryGal' ),
 					'users'=>User::usernamesByRole((User::ADMIN | User::GESTOR), (User::PERM_IMAGENES | User::PERM_DOCUMENTOS)),
 				     ),
 				array('deny',  // deny all users
@@ -130,6 +130,19 @@ public $menu;
 		}
 	}
 
+
+	public function actionUpdateCategoryGal(){
+		if(isset($_GET['id'])){
+			$model=Category::model()->findByPk($_GET['id']);
+			$model->gallery=($_GET['val']=="true")?1:0;
+			if($model->save())
+				return $this->renderPartial('_ajaxGenericContent',array('text'=>true));
+			else
+				return $this->renderPartial('_ajaxGenericContent',array('text'=>false));
+		}
+	}
+
+
 	public function actionDeleteCategory(){
 		if(isset($_GET['idCat']) && isset($_GET['type'])){
 			$model=Category::model()->findByPk($_GET['idCat']);
@@ -195,7 +208,17 @@ public $menu;
 	public function actionViewDocumentGallery(){
 		if(isset($_GET['id'])){
 			$galeria=Category::model()->findByPk($_GET['id']);
-			return $this->renderPartial('_viewDocumentGallery', array('item'=>$galeria));
+			
+			$model=new File('search');
+			$model->unsetAttributes();  // clear any default values
+
+			if(isset($_GET['File']))
+				$model->attributes=$_GET['File'];			
+
+			if(isset($_GET['id']))
+				$model->MyCategory=$_GET['id'];
+			
+			return $this->renderPartial('_viewDocumentGallery', array('item'=>$galeria, 'model'=>$model), false, true);
 		}
 	}
 
@@ -250,7 +273,7 @@ public $menu;
 					$criterio1->condition="type='".$_GET['type']."'";
 					$galeria=Category::model()->findAll($criterio1);
 
-					return $this->renderPartial('_ajaxGenericContent',array('text'=>'<script>window.top.window.updateActualTab();</script>'));
+					return $this->renderPartial('_ajaxGenericContent',array('text'=>'<script>window.parent.window.updateActualTab();</script>'));
 
 					//return $this->render('index', array('galeria'=>$galeria));
 				}else{

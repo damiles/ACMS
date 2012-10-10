@@ -80,7 +80,7 @@ class File extends CActiveRecord
 	 * Retrieves a list of models based on the current search/filter conditions.
 	 * @return CActiveDataProvider the data provider that can return the models based on the search/filter conditions.
 	 */
-	public function search()
+	public function search($ps=50)
 	{
 		// Warning: Please modify the following code to remove attributes that
 		// should not be searched.
@@ -91,11 +91,12 @@ class File extends CActiveRecord
 		$criteria->compare('date',$this->date,true);
 		$criteria->compare('name',$this->name,true);
 		$criteria->compare('description',$this->description,true);
-
+		$criteria->order='idFile desc';
+		
                 return new CActiveDataProvider(get_class($this), array(
 			'criteria'=>$criteria,
 			'pagination'=>array(
-					'pageSize'=>50,
+					'pageSize'=>$ps,
 				    )
 		));
 	}
@@ -103,7 +104,19 @@ class File extends CActiveRecord
 
 	public function gridLinkName($data, $row){
 		$fileinfo=pathinfo(Yii::app()->params['upload'].$data->url);
-		return "<a href=\"javascript:setData('".$data->MyCategory."','".$fileinfo['filename']."','".$data->name."','".$fileinfo['extension']."','".Utiles::formatBytes(filesize(Yii::app()->params['upload'].$data->url))."');\">$data->name</a>";
+		return "<a href=\"javascript:setData('".$data->MyCategory."','".$fileinfo['filename']."','".$data->name."','".$fileinfo['extension']."','".Utiles::formatBytes(filesize(Yii::app()->params['upload'].$data->url))."', '".$data->description."');\">$data->name</a>";
 	}
+	
+	public function gridLinkDocName($data, $row){
+		$fileinfo=pathinfo(Yii::app()->params['upload'].$data->url);
+		
+		if(isset($_GET['popup']) || isset($_GET['tinyMCE'])){
+				return "<a class='descarga_g".$data->MyCategory."' id='descarga_g".$data->MyCategory."_".$data->idFile."' href='upload/$data->url'>$data->description</a>";
+		}else{
+			return "<a href='upload/$data->url' target='_blank'>$data->description</a>";
+		}
+	}
+	
+	
 
 }

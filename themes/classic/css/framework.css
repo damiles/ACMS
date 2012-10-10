@@ -10,6 +10,6 @@
  *
  * -------------------------------------------------------------------*/
 @import "reset.css";
-@import "styleBase.css";
+@import "bootstrap.min.css";
+@import "bootstrap-responsive.min.css";
 @import "layout.css";
-

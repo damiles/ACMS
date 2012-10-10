@@ -1,79 +1,76 @@
 <!doctype html>
-<!-- paulirish.com/2008/conditional-stylesheets-vs-css-hacks-answer-neither/ -->
-<!--[if lt IE 7]> <html class="no-js lt-ie9 lt-ie8 lt-ie7" lang="en"> <![endif]-->
-<!--[if IE 7]>    <html class="no-js lt-ie9 lt-ie8" lang="en"> <![endif]-->
-<!--[if IE 8]>    <html class="no-js lt-ie9" lang="en"> <![endif]-->
-<!-- Consider adding a manifest.appcache: h5bp.com/d/Offline -->
-<!--[if gt IE 8]><!--> <html class="no-js" lang="en"> <!--<![endif]-->
+<html lang="es">
 <head>
-  <meta charset="utf-8">
+	<meta charset="utf-8">
+	<meta name="language" content="es" />
 
-  <!-- Use the .htaccess and remove these lines to avoid edge case issues.
-       More info: h5bp.com/i/378 -->
-  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+	<title><?php echo $this->pageTitle; ?></title>
+	<meta name="description" content="">
 
-  <title></title>
-  <meta name="description" content="">
+	<!-- Mobile viewport optimized: h5bp.com/viewport -->
+	<meta name="viewport" content="width=device-width">
 
-  <!-- Mobile viewport optimized: h5bp.com/viewport -->
-  <meta name="viewport" content="width=device-width">
+	<link rel="stylesheet" href="<?php echo Yii::app()->theme->baseUrl; ?>/css/framework.css">
 
-  <!-- Place favicon.ico and apple-touch-icon.png in the root directory: mathiasbynens.be/notes/touch-icons -->
-  <link href='http://fonts.googleapis.com/css?family=Share:400,400italic,700,700italic' rel='stylesheet' type='text/css'>
-  <link rel="stylesheet" href="<?php echo Yii::app()->theme->baseUrl; ?>/css/framework.css">
+ 	<script src="<?php echo Yii::app()->theme->baseUrl; ?>/js/modernizr.basic.js"></script>	
+	<script src="<?php echo Yii::app()->theme->baseUrl; ?>/js/jquery-1.7.2.min.js"></script>
+	<script src="<?php echo Yii::app()->theme->baseUrl; ?>/js/jquery.tools.min.js"></script>
+	<script src="<?php echo Yii::app()->theme->baseUrl; ?>/js/Artres/bannerTransitions.js"></script>
+	<script src="<?php echo Yii::app()->theme->baseUrl; ?>/js/bootstrap.min.js"></script>
+	<!--para los formularios-->
+	<script src="<?php echo Yii::app()->theme->baseUrl; ?>/js/Artres/autoinput.js"></script>
 
-  <!-- More ideas for your <head> here: h5bp.com/d/head-Tips -->
 
-  <!-- All JavaScript at the bottom, except this Modernizr build.
-       Modernizr enables HTML5 elements & feature detects for optimal performance.
-       Create your own custom Modernizr build: www.modernizr.com/download/ -->
-  <script src="<?php echo Yii::app()->theme->baseUrl; ?>/js/libs/modernizr-2.5.3.min.js"></script>
+	<!--para las imagenes con enlace-->
+	<script src="<?php echo Yii::app()->theme->baseUrl; ?>/js/Artres/fadeImage.js"></script>
+
+	<!--para las diapositivas-->
+	<script src="<?php echo Yii::app()->theme->baseUrl; ?>/js/Artres/diapositivas.js"></script>
+	<!--[if IE]>
+	<script type="text/javascript">
+	var e = ("abbr,article,aside,audio,canvas,datalist,details,figure,footer,header,hgroup,mark,menu,meter,nav,output,progress,section,time,video").split(',');
+	for (var i=0; i<e.length; i++) {
+	document.createElement(e[i]);
+	}
+	</script>
+	<![endif]-->
+
 </head>
 <body>
-	<div class="wrapper">
-  <!-- Prompt IE 6 users to install Chrome Frame. Remove this if you support IE 6.
-       chromium.org/developers/how-tos/chrome-frame-getting-started -->
-  <!--[if lt IE 7]><p class=chromeframe>Your browser is <em>ancient!</em> <a href="http://browsehappy.com/">Upgrade to a different browser</a> or <a href="http://www.google.com/chromeframe/?redirect=true">install Google Chrome Frame</a> to experience this site.</p><![endif]-->
-  <header>
-	<h1 id="logo"><?php echo CHtml::encode(Yii::app()->name); ?></h1>
-	<!--
-	<nav id="topmenu">
-		<?php $this->widget("LangSel");?> 
-	</nav>
-	-->
-	<nav id="mainmenu">
-		<?php $this->widget("UserMenu",array('display_in'=>'0','style'=>'dropdown dropdown-horizontal','style_sub'=>'dir','recursive'=>true)); ?>
-	</nav>
-  </header>
-  
-	
-		<div id="content"  role="main">
-			<?php echo $content; ?>
-		</div><!-- content -->
-	
+	<header>
+		<nav class="navbar navbar-inverse navbar-fixed-top">
+			<div class="navbar-inner">
+			    <div class="container">
+			 
+			      <!-- .btn-navbar is used as the toggle for collapsed navbar content -->
+			      <a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
+				<span class="icon-bar"></span>
+				<span class="icon-bar"></span>
+				<span class="icon-bar"></span>
+			      </a>
+			 
+			      <!-- Be sure to leave the brand out there if you want it shown -->
+			      <a class="brand" href="#"><?php echo CHtml::encode(Yii::app()->name); ?></a>
+			 
+			      <!-- Everything you want hidden at 940px or less, place within here -->
+			      <div class="nav-collapse">
+				<!-- .nav, .navbar-search, .navbar-form, etc -->
+				<?php $this->widget("UserMenu",array('display_in'=>'0','style'=>'nav','recursive'=>true)); ?>
+			      </div>
+			 
+			    </div>
+			  </div>
+		</nav>
+	</header>
+	<div id="wrapper" class="container" role="main">
+		<?php echo $content; ?>
+	</div><!-- page -->
 	<footer>
+		<div class="container">
+	        @copyright Artres. Based on <a href="http://twitter.github.com/bootstrap/index.html" target="_blank">Bootstrap </a> and <a href="http://jquerytools.org/" target="_blank">jquery tools</a>
+		</div>
+	</footer><!-- footer -->
 
-  	</footer>
-</div>
-
-  <!-- JavaScript at the bottom for fast page loading -->
-
-  <!-- Grab Google CDN's jQuery, with a protocol relative URL; fall back to local if offline -->
-  <script src="//ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
-  <script>window.jQuery || document.write('<script src="<?php echo Yii::app()->theme->baseUrl; ?>/js/libs/jquery-1.7.1.min.js"><\/script>')</script>
-
-  <!-- scripts concatenated and minified via build script -->
-  <script src="<?php echo Yii::app()->theme->baseUrl; ?>/js/plugins.js"></script>
-  <script src="<?php echo Yii::app()->theme->baseUrl; ?>/js/script.js"></script>
-  <!-- end scripts -->
-
-  <!-- Asynchronous Google Analytics snippet. Change UA-XXXXX-X to be your site's ID.
-       mathiasbynens.be/notes/async-analytics-snippet -->
-  <script>
-    var _gaq=[['_setAccount','UA-XXXXX-X'],['_trackPageview']];
-    (function(d,t){var g=d.createElement(t),s=d.getElementsByTagName(t)[0];
-    g.src=('https:'==location.protocol?'//ssl':'//www')+'.google-analytics.com/ga.js';
-    s.parentNode.insertBefore(g,s)}(document,'script'));
-  </script>
+<?php echo ACMS::getAnalyticsCode(); ?>
 </body>
 </html>

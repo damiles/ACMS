@@ -9,6 +9,7 @@
  * Description: Framework of default theme.
  *
  * -------------------------------------------------------------------*/
-@import "styleBase.css";
+/*@import "reset.css";*/
+@import "bootstrap.min.css";
+@import "bootstrap-responsive.min.css";
 @import "layout.css";
-

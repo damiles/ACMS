@@ -579,6 +579,74 @@ class SiteController extends Controller
 				break;
 		}
 
+		$this->render('rss',array('type'=>$type,
+					'dataProvider'=>$dataProvider,
+					));
+
+
+
+	}
+
+	public function actionRss2(){
+
+		$type=0;
+		$cat=0;
+
+		if(isset($_GET['type'])){
+			$type= $_GET['type'];
+			
+		}
+		switch($type){
+			case 0:
+			case 1:
+				//$cond='type="news" and published=true';
+				$cond='type="news" and published=true and date <=NOW()';
+				/*if($cat!=0)
+					$cond='type="news" and published=true and category='.$cat;
+				*/
+				if(isset($_GET['idCat'])){
+					$categoria=ArticleCategory::model()->findByPk($_GET['idCat']);
+					$categorias=ACMS::getChildCategories($categoria);
+					$catCond=join(' or category=',$categorias);
+					$cond=$cond.' and (category='.$catCond.')';
+				}
+				
+				$pag=self::PAGE_SIZE;
+				if(isset($_GET['ps']))
+					$pag=$_GET['ps'];
+
+				$dataProvider=new CActiveDataProvider('Article', array(
+							'criteria'=>array(
+								'condition'=>$cond,
+								'order'=>'date DESC',
+								),
+							'pagination'=>array(
+								'pageSize'=>$pag,
+								),
+							));
+				break;
+			case 2:
+				$fecha=getDate();
+				if(isset($_GET['mon']))
+					$mon=$_GET['mon'];
+				else
+					$mon=$fecha['mon'];
+				$mon=$mon%12;
+				$anyo=$fecha['year']+(int)($mon/12);
+
+				$cond='MONTH(date)='.$mon.' and YEAR(date)='.$anyo;
+
+				$dataProvider=new CActiveDataProvider('Evento', array(
+							'criteria'=>array(
+								'condition'=>$cond,
+								'order'=>'date ASC',
+								),
+							'pagination'=>false,
+							));
+
+				break;
+		}
+
 		$this->render('rss2',array('type'=>$type,
 					'dataProvider'=>$dataProvider,
 					));

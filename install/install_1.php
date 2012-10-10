@@ -68,9 +68,6 @@ Para la correcta instalación de la aplicación se necesita los datos de conexi�
 		<div>
 		    <label for="webname">Nombre del portal</label><input id="webname" name="webname" />
 	    	</div>
-		<div>
-		    <label for="direct">Upload dir</label><input id="direct" name="direct" />
-	    	</div>
     </fieldset>
     <button type="submit"  class="button">Siguiente &rArr;</button>
 </form>

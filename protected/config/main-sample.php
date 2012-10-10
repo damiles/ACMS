@@ -7,7 +7,7 @@
 // CWebApplication properties can be configured here.
 return array(
 'basePath'=>dirname(__FILE__).DIRECTORY_SEPARATOR.'..',
-'name'=>'WEBNAME',
+'name'=>'[WEBNAME]',
 
 // preloading 'log' component
 'preload'=>array('log'),
@@ -72,9 +72,9 @@ array(
 ),
 'db'=>array(
 'class'=>'CDbConnection',
-'connectionString'=>'mysql:host=HOST;port=3306;dbname=DBA',
-'username'=>'USER',
-'password'=>'PASS',
+'connectionString'=>'mysql:host=[DB_HOST];port=3306;dbname=[DB_SCHEMA]',
+'username'=>'[DB_USER]',
+'password'=>'[DB_PASS]',
 'charset'=>'utf8',
 ),
 'image'=>array(
@@ -90,11 +90,11 @@ array(
 // using Yii::app()->params['paramName']
 'params'=>array(
 // this is used in contact page
-'adminEmail'=>'EMAIL',
-'upload'=>'UPLOAD_DIR',
+'adminEmail'=>'[ADMIN_EMAIL]',
+'upload'=>'[UPLOAD_DIR]',
 'frontendTheme'=>'classic',
 'path'=>'/',
-//'searchIndexPath'=>'/var/www/vhosts/eurotri.com/httpdocs/seindex/',
+'searchIndexPath'=>'[SEINDEX]',
 ),
 //Uncomment for min script
 /*'controllerMap'=>array(

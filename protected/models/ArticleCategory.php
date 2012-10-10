@@ -10,6 +10,7 @@
  */
 class ArticleCategory extends CActiveRecord
 {
+	public $title="";
 	/**
 	 * Returns the static model of the specified AR class.
 	 * @return ArticleCategory the static model class
@@ -55,7 +56,9 @@ class ArticleCategory extends CActiveRecord
                     'content' => array(self::HAS_MANY, 'ArticleCategoryContent', 'idArticleCategory'),
                     'parent0' => array(self::BELONGS_TO, 'ArticleCategory', 'parent'),
                     'childs' => array(self::HAS_MANY, 'ArticleCategory', 'parent'),
-		);
+		    //Relacion contenido generico
+		    'defaultContent'=> array(self::HAS_ONE,'ArticleCategoryContent','idArticleCategory','with'=>array('lang'=>array('scopes'=>array('default'=>1)))),
+		);	
 	}
 
 	/**
@@ -89,4 +92,10 @@ class ArticleCategory extends CActiveRecord
 			'criteria'=>$criteria,
 		));
 	}
+	protected function afterFind(){
+            parent::afterFind();
+            $this->title=ACMS::getTitle($this);
+            
+            return true;
+        }
 }

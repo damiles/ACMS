@@ -49,35 +49,19 @@ function writeConfigFile(){
 		return false;
 	}
 
-	$configFile = file($config_sample);
+	$seindexdir=dirname(__FILE__)."/../seindex/";
 
+	$mensaje=file_get_contents($config_sample);
+        //Cambiar por los correspondientes
 
-	$handle= fopen($config_file,'w');
-	foreach ($configFile as $line_num => $line) {
-		switch (substr($line,0,8)) {
-			case "'connect":
-				$txt=str_replace("DBA", $database, $line);
-				fwrite($handle, str_replace("HOST", $host, $txt));
-			break;
-			case "'usernam":
-				fwrite($handle, str_replace("'USER'", "'$user'", $line));
-			break;
-			case "'passwor":
-				fwrite($handle, str_replace("'PASS'", "'$pass'", $line));
-			break;
-			case "'adminEm":
-				fwrite($handle, str_replace("'EMAIL'", "'$email'", $line));
-			break;
-			case "'upload'":
-				fwrite($handle, str_replace("'UPLOAD_DIR'", "'$directory'", $line));
-			break;
-			case "'name'=>":
-				fwrite($handle, str_replace("'WEBNAME'", "'$webname'", $line));
-			break;
-			default:
-			fwrite($handle, $line);
-		}
-	}
+        $search=array('[DB_HOST]','[DB_SCHEMA]','[DB_USER]','[DB_PASS]','[ADMIN_EMAIL]','[UPLOAD_DIR]', '[WEBNAME]','[SEINDEX]');
+        $replace=array($host, $database,  $user, $pass, $email, $directory, $webname, $seindexdir );
+        $mensaje= str_replace($search, $replace, $mensaje);
+        
+        $configFile = file($config_sample);
+        $handle= fopen($config_file,'w');
+        fwrite($handle, $mensaje);
+
 	fclose($handle);
 	chmod($config_file, 0666);
 	return true;
@@ -107,9 +91,11 @@ if (isset($_POST['host'])){
 	$pass = isset($_POST['pass']) ? $_POST['pass'] : '';
 	$database = isset($_POST['database']) ? $_POST['database'] : '';
 
-	$directory = isset($_POST['direct']) ? $_POST['direct'] : '';
+	/*$directory = isset($_POST['direct']) ? $_POST['direct'] : '';
 	if($directory[strlen($directory)-1]!='/')
-		$directory=$directory."/";
+		$directory=$directory."/";*/
+	$directory= dirname(__FILE__)."/../upload/";
+
 	$email = isset($_POST['mail']) ? $_POST['mail'] : '';
 
 	$admin_user = isset($_POST['admin_user']) ? $_POST['admin_user'] : '';

@@ -1,5 +1,31 @@
 <?php
-
+/**
+ * This is the model class for table "Article".
+ *
+ * The followings are the available columns in table 'Article':
+ * @property integer $idArticle
+ * @property string $type
+ * @property string $date
+ * @property integer $published
+ * @property integer $author
+ * @property integer $hits
+ * @property integer $category
+ * @property string $img_portada
+ * @property integer $show_title
+ * @property integer $home
+ * @property string $template
+ * @property string $fuente
+ * @property string $bibliografia
+ * @property string $banner
+ *
+ * The followings are the available model relations:
+ * @property User $author0
+ * @property Lang[] $langs
+ * @property Banner[] $banners
+ * @property Comment[] $comments
+ * @property Components[] $components
+ * @property Newsletter[] $newsletters
+ */
 class Article extends CActiveRecord
 {
 	/**
@@ -12,7 +38,8 @@ class Article extends CActiveRecord
 	 * @var integer $hits
 	 * @var integer $category
 	 */
-
+	public $title="";
+	public $categoryTitle="";
 	/**
 	 * Returns the static model of the specified AR class.
 	 * @return CActiveRecord the static model class
@@ -41,8 +68,8 @@ class Article extends CActiveRecord
 			array('author', 'required'),
 			array('show_title, published, home, author, hits, category', 'numerical', 'integerOnly'=>true),
 			array('type, img_portada, template', 'length', 'max'=>255),
-			array('date, template, banner, fuente, bibliografia', 'safe'),
-			
+			array('date, template, banner, fuente, bibliografia, Url', 'safe'),
+			array('idArticle, type, date, published, author, hits, Url, img_portada, show_title, home, template, fuente, bibliografia, banner, title, categoryTitle', 'safe', 'on'=>'search'),
 		);
 	}
 
@@ -65,6 +92,9 @@ class Article extends CActiveRecord
                         'commentSpamCount' => array(self::STAT, 'Comment', 'Article_idArticle', 'condition'=>'approved='.Comment::STATUS_SPAMMED),
                         'commentTotalCount' => array(self::STAT, 'Comment', 'Article_idArticle'),
                         'tags' => array(self::MANY_MANY, 'Tag', 'Article_has_Tag(idArticle, idTag)'),
+			//Relacion contenido generico
+                        'tituloContent'=> array(self::HAS_ONE,'ArticleContent','idArticle','with'=>array('lang'=>array('alias'=>'l1','scopes'=>array('default'=>1)))),
+			
 		);
 	}
 
@@ -74,16 +104,18 @@ class Article extends CActiveRecord
 	public function attributeLabels()
 	{
 		return array(
-			'idArticle' => 'Id Article',
+			'idArticle' => 'Identificador',
 			'type' => 'Type',
-			'date' => 'Date',
+			'date' => 'Fecha publicación',
 			'published' => 'Published',
 			'author' => 'Author',
-			'hits' => 'Hits',
+			'hits' => 'Clicks',
                         'home' => 'En portada',
-			'category' => 'Category',
+			'category' => 'Categoría',
+			'categoryTitle' => 'Categoría',
 			'img_portada' => 'Imagen de portada',
 			'show_title' => 'Mostrar titular',
+			'title'=>'Título',
 		);
 	}
 
@@ -100,5 +132,54 @@ class Article extends CActiveRecord
                 $comment->Lang_idLang=Yii::app()->language;
 		return $comment->save();
 	}
+
+/**
+     * Retrieves a list of models based on the current search/filter conditions.
+     * @return CActiveDataProvider the data provider that can return the models based on the search/filter conditions.
+     */
+    public function search()
+    {
+        // Warning: Please modify the following code to remove attributes that
+        // should not be searched.
+
+        $criteria=new CDbCriteria;
+        $criteria->compare('t.idArticle',$this->idArticle);
+        $criteria->compare('type',$this->type,true);
+        $criteria->compare('date',$this->date,true);
+        $criteria->compare('published',$this->published);
+        $criteria->compare('author',$this->author);
+        $criteria->compare('hits',$this->hits);
+      	$criteria->compare('category',$this->category);
+        $criteria->compare('img_portada',$this->img_portada,true);
+        $criteria->compare('show_title',$this->show_title);
+        $criteria->compare('home',$this->home);
+        $criteria->compare('template',$this->template,true);
+        $criteria->compare('fuente',$this->fuente,true);
+        $criteria->compare('bibliografia',$this->bibliografia,true);
+        $criteria->compare('banner',$this->banner,true);
+
+
+	//Busqueda por titulo generico
+        $criteria->with= array('tituloContent', 'myCategory.defaultContent');
+        $criteria->addSearchCondition('tituloContent.title', $this->title, true);
+
+	//Busqueda por titulo generico
+        //$criteria->with= array('myCategory.defaultContent');
+        $criteria->addSearchCondition('defaultContent.title', $this->categoryTitle, true);
+
+        return new CActiveDataProvider(get_class($this), array(
+            'criteria'=>$criteria,
+	    'sort'=>array(
+		    'defaultOrder'=>'t.idArticle DESC',
+		  )
+        ));
+    }
+
+	protected function afterFind(){
+            parent::afterFind();
+            $this->title=ACMS::getTitle($this);
+            
+            return true;
+        }
 }
 

@@ -100,7 +100,7 @@ class EventosController extends Controller
 	 * News
 	 */
 	public function actionIndex(){
-		$dataProvider=new CActiveDataProvider('Evento', array(
+		/*$dataProvider=new CActiveDataProvider('Evento', array(
 					'criteria'=>array(
 						'order'=>'date DESC',
 						),
@@ -111,6 +111,15 @@ class EventosController extends Controller
 
 		$this->render('index',array(
 					'dataProvider'=>$dataProvider,
+					));*/
+		$model=new Evento('search');
+		$model->unsetAttributes();  // clear any default values
+		if(isset($_GET['Evento'])){
+			$model->attributes=$_GET['Evento'];
+		}
+	
+		$this->render('index',array(
+					'model'=>$model,
 					));
 	}
 	/**

@@ -50,7 +50,7 @@ class NewsController extends Controller
 					'users'=>array('*'),
 				     ),
 				array('allow', // allow authenticate users
-					'actions'=>array('index','logout','updateNews','createNews','deleteNews', 'addCategory'),
+					'actions'=>array('index','logout','update','createNews','delete', 'addCategory'),
 					'users'=>User::usernamesByRole((User::ADMIN | User::GESTOR), User::PERM_NOTICIAS),
 				     ),
 				array('deny',  // deny all users
@@ -103,7 +103,7 @@ class NewsController extends Controller
 	 * News
 	 */
 	public function actionIndex(){
-                $condicion='type="news" ';
+               /* $condicion='type="news" ';
                if(isset ($_GET['cat'])){
                    if($_GET['cat']!='')
                     $condicion.=' and category='.$_GET['cat'];
@@ -117,9 +117,17 @@ class NewsController extends Controller
 						'pageSize'=>self::PAGE_SIZE,
 						),
 					));
+*/
+		$model=new Article('search');
+		$model->unsetAttributes();  // clear any default values
+		if(isset($_GET['Article'])){
+			$model->attributes=$_GET['Article'];
+		}
+	
+		$model->type="news";
 
 		$this->render('index',array(
-					'dataProvider'=>$dataProvider,
+					'model'=>$model,
 					));
 	}
 	/**
@@ -148,7 +156,7 @@ class NewsController extends Controller
 					$this->redirect(array('index'));
 				}
 			}
-			$this->redirect(array('updateNews','id'=>$model->idArticle));
+			$this->redirect(array('update','id'=>$model->idArticle));
 		}else{
 			$this->redirect(array('index'));
 		}
@@ -161,7 +169,7 @@ class NewsController extends Controller
 	 * Updates a particular model.
 	 * If update is successful, the browser will be redirected to the 'view' page.
 	 */
-	public function actionUpdateNews()
+	public function actionUpdate()
 	{
 		$model=$this->loadModelArticle();
 		if(isset($_POST['Article']))
@@ -175,7 +183,7 @@ class NewsController extends Controller
 			$model->attributes=$_POST['Article'];
                         
 			if($model->save())
-				$this->redirect(array('updateNews','id'=>$model->idArticle,'updated'=>'1'));
+				$this->redirect(array('update','id'=>$model->idArticle,'updated'=>'1'));
 		}
 		$updated=0;
 		if(isset($_GET["updated"]))
@@ -188,7 +196,7 @@ class NewsController extends Controller
 	/**
 	 * Delete a particular News
 	 */
-	public function actionDeleteNews()
+	public function actionDelete()
 	{
 		if(Yii::app()->request->isPostRequest)
 		{

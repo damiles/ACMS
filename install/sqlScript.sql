@@ -33,11 +33,22 @@ DROP TABLE IF EXISTS `SearchOccurrence`;
 DROP TABLE IF EXISTS `SearchPage`;
 DROP TABLE IF EXISTS `SearchWord`;
 
+
+--
+-- Estructura de tabla para la tabla `Agenda`
+--
+
 CREATE TABLE IF NOT EXISTS `Agenda` (
   `idAgenda` int(11) NOT NULL AUTO_INCREMENT,
   `published` int(1) NOT NULL DEFAULT '0',
   PRIMARY KEY (`idAgenda`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `AgendaContent`
+--
 
 CREATE TABLE IF NOT EXISTS `AgendaContent` (
   `title` varchar(255) DEFAULT NULL,
@@ -47,6 +58,12 @@ CREATE TABLE IF NOT EXISTS `AgendaContent` (
   KEY `fk_AgendaContent_Agenda1` (`idAgenda`),
   KEY `fk_AgendaContent_Lang` (`lang`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `Article`
+--
 
 CREATE TABLE IF NOT EXISTS `Article` (
   `idArticle` int(11) NOT NULL AUTO_INCREMENT,
@@ -63,9 +80,16 @@ CREATE TABLE IF NOT EXISTS `Article` (
   `fuente` varchar(255) DEFAULT NULL,
   `bibliografia` text,
   `banner` varchar(255) DEFAULT NULL,
+  `Url` varchar(255) DEFAULT NULL,
   PRIMARY KEY (`idArticle`),
   KEY `fk_author` (`author`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=862 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=878 ;
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `ArticleCategory`
+--
 
 CREATE TABLE IF NOT EXISTS `ArticleCategory` (
   `idArticleCategory` int(11) NOT NULL AUTO_INCREMENT,
@@ -74,6 +98,12 @@ CREATE TABLE IF NOT EXISTS `ArticleCategory` (
   `template` varchar(255) DEFAULT NULL,
   PRIMARY KEY (`idArticleCategory`)
 ) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=55 ;
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `ArticleCategoryContent`
+--
 
 CREATE TABLE IF NOT EXISTS `ArticleCategoryContent` (
   `idArticleCategory` int(11) NOT NULL,
@@ -85,6 +115,12 @@ CREATE TABLE IF NOT EXISTS `ArticleCategoryContent` (
   KEY `fk_ArticleCategoryContent_lang` (`lang`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `ArticleContent`
+--
+
 CREATE TABLE IF NOT EXISTS `ArticleContent` (
   `text` text NOT NULL,
   `lang` varchar(7) NOT NULL,
@@ -95,11 +131,23 @@ CREATE TABLE IF NOT EXISTS `ArticleContent` (
   KEY `fk_ArticleContent_Article` (`idArticle`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `Article_has_Tag`
+--
+
 CREATE TABLE IF NOT EXISTS `Article_has_Tag` (
   `idArticle` int(11) NOT NULL,
   `idTag` int(11) NOT NULL,
   PRIMARY KEY (`idArticle`,`idTag`)
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `Banner`
+--
 
 CREATE TABLE IF NOT EXISTS `Banner` (
   `idBanner` int(11) NOT NULL AUTO_INCREMENT,
@@ -114,8 +162,19 @@ CREATE TABLE IF NOT EXISTS `Banner` (
   `always_present` int(1) NOT NULL DEFAULT '0',
   `date` date NOT NULL,
   `endDate` date NOT NULL,
+  `titulo` varchar(255) NOT NULL,
+  `descripcion1` text NOT NULL,
+  `descripcion2` text NOT NULL,
+  `descripcion3` text NOT NULL,
+  `categoria` varchar(255) NOT NULL,
   PRIMARY KEY (`idBanner`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=197 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=4 ;
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `Banner_has_Article`
+--
 
 CREATE TABLE IF NOT EXISTS `Banner_has_Article` (
   `idBanner` int(11) NOT NULL,
@@ -124,6 +183,12 @@ CREATE TABLE IF NOT EXISTS `Banner_has_Article` (
   KEY `fk_Banner_has_Article_Article1` (`idArticle`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `Banner_has_Tag`
+--
+
 CREATE TABLE IF NOT EXISTS `Banner_has_Tag` (
   `idBanner` int(11) NOT NULL,
   `idTag` int(11) NOT NULL,
@@ -131,20 +196,39 @@ CREATE TABLE IF NOT EXISTS `Banner_has_Tag` (
   KEY `fk_Banner_has_Tag_Tag1` (`idTag`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `Banner_linkedTo`
+--
+
 CREATE TABLE IF NOT EXISTS `Banner_linkedTo` (
   `url` varchar(255) DEFAULT NULL,
   `idBanner_linkedTo` int(11) NOT NULL AUTO_INCREMENT,
   `idBanner` int(11) NOT NULL,
   PRIMARY KEY (`idBanner_linkedTo`),
   KEY `fk_Banner_linkedTo_Banner1` (`idBanner`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=10 ;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `Category`
+--
 
 CREATE TABLE IF NOT EXISTS `Category` (
   `idCategory` int(11) NOT NULL AUTO_INCREMENT,
   `name` varchar(255) DEFAULT NULL,
   `type` varchar(255) DEFAULT NULL,
+  `gallery` tinyint(1) NOT NULL,
   PRIMARY KEY (`idCategory`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=17 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=6 ;
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `Comment`
+--
 
 CREATE TABLE IF NOT EXISTS `Comment` (
   `idComment` int(11) NOT NULL AUTO_INCREMENT,
@@ -166,6 +250,12 @@ CREATE TABLE IF NOT EXISTS `Comment` (
   KEY `fk_Comment_Comment1` (`parent`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
 
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `Components`
+--
+
 CREATE TABLE IF NOT EXISTS `Components` (
   `plugin` varchar(255) NOT NULL,
   `params` varchar(255) DEFAULT NULL,
@@ -174,6 +264,12 @@ CREATE TABLE IF NOT EXISTS `Components` (
   PRIMARY KEY (`idComponents`),
   KEY `fk_Components_Article1` (`Article_idArticle`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `Evento`
+--
 
 CREATE TABLE IF NOT EXISTS `Evento` (
   `idEvento` int(11) NOT NULL AUTO_INCREMENT,
@@ -185,6 +281,12 @@ CREATE TABLE IF NOT EXISTS `Evento` (
   KEY `fk_Evento_Agenda` (`idAgenda`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
 
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `EventoContent`
+--
+
 CREATE TABLE IF NOT EXISTS `EventoContent` (
   `title` varchar(255) CHARACTER SET latin1 DEFAULT NULL,
   `lang` varchar(7) CHARACTER SET latin1 NOT NULL,
@@ -193,6 +295,12 @@ CREATE TABLE IF NOT EXISTS `EventoContent` (
   PRIMARY KEY (`lang`,`idEvento`),
   KEY `fk_EventoContent_Evento` (`idEvento`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `File`
+--
 
 CREATE TABLE IF NOT EXISTS `File` (
   `idFile` int(11) NOT NULL AUTO_INCREMENT,
@@ -205,7 +313,13 @@ CREATE TABLE IF NOT EXISTS `File` (
   PRIMARY KEY (`idFile`),
   KEY `fk_File_Type` (`MyType`),
   KEY `fk_File_Category` (`MyCategory`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_bin AUTO_INCREMENT=2080 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_bin AUTO_INCREMENT=40 ;
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `Lang`
+--
 
 CREATE TABLE IF NOT EXISTS `Lang` (
   `idLang` varchar(7) NOT NULL,
@@ -214,6 +328,12 @@ CREATE TABLE IF NOT EXISTS `Lang` (
   `default` tinyint(1) DEFAULT '0',
   PRIMARY KEY (`idLang`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `Link`
+--
 
 CREATE TABLE IF NOT EXISTS `Link` (
   `idLink` int(11) NOT NULL AUTO_INCREMENT,
@@ -227,6 +347,12 @@ CREATE TABLE IF NOT EXISTS `Link` (
   `orden` int(11) NOT NULL DEFAULT '0',
   PRIMARY KEY (`idLink`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `Menu`
+--
 
 CREATE TABLE IF NOT EXISTS `Menu` (
   `idMenu` int(11) NOT NULL AUTO_INCREMENT,
@@ -243,7 +369,13 @@ CREATE TABLE IF NOT EXISTS `Menu` (
   `css` varchar(255) DEFAULT NULL,
   PRIMARY KEY (`idMenu`),
   KEY `fk_Menu_Menu` (`parent`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=83 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=94 ;
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `MenuContent`
+--
 
 CREATE TABLE IF NOT EXISTS `MenuContent` (
   `title` varchar(255) NOT NULL,
@@ -254,6 +386,12 @@ CREATE TABLE IF NOT EXISTS `MenuContent` (
   KEY `fk_MenuContent_Menu` (`idMenu`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `Newsletter`
+--
+
 CREATE TABLE IF NOT EXISTS `Newsletter` (
   `idNewsletter` int(11) NOT NULL,
   `date` datetime DEFAULT NULL,
@@ -262,6 +400,12 @@ CREATE TABLE IF NOT EXISTS `Newsletter` (
   KEY `fk_Newsletter_Article1` (`articuloPrincipal`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `Newsletter_has_Article`
+--
+
 CREATE TABLE IF NOT EXISTS `Newsletter_has_Article` (
   `Newsletter_idNewsletter` int(11) NOT NULL,
   `Article_idArticle` int(11) NOT NULL,
@@ -269,11 +413,23 @@ CREATE TABLE IF NOT EXISTS `Newsletter_has_Article` (
   KEY `fk_Newsletter_has_Article_Article1` (`Article_idArticle`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `Rol`
+--
+
 CREATE TABLE IF NOT EXISTS `Rol` (
   `idRol` int(11) NOT NULL AUTO_INCREMENT,
   `name` varchar(255) DEFAULT NULL,
   PRIMARY KEY (`idRol`)
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=9 ;
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `SearchOccurrence`
+--
 
 CREATE TABLE IF NOT EXISTS `SearchOccurrence` (
   `idSearchOccurrence` int(11) NOT NULL AUTO_INCREMENT,
@@ -282,6 +438,12 @@ CREATE TABLE IF NOT EXISTS `SearchOccurrence` (
   `weight` int(3) DEFAULT NULL,
   PRIMARY KEY (`idSearchOccurrence`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `SearchPage`
+--
 
 CREATE TABLE IF NOT EXISTS `SearchPage` (
   `idSearchPage` int(11) NOT NULL AUTO_INCREMENT,
@@ -295,11 +457,23 @@ CREATE TABLE IF NOT EXISTS `SearchPage` (
   PRIMARY KEY (`idSearchPage`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
 
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `SearchWord`
+--
+
 CREATE TABLE IF NOT EXISTS `SearchWord` (
   `idSearchWord` int(11) NOT NULL AUTO_INCREMENT,
   `word` varchar(50) NOT NULL,
   PRIMARY KEY (`idSearchWord`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `Settings`
+--
 
 CREATE TABLE IF NOT EXISTS `Settings` (
   `id` varchar(255) NOT NULL,
@@ -307,11 +481,23 @@ CREATE TABLE IF NOT EXISTS `Settings` (
   PRIMARY KEY (`id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `Tag`
+--
+
 CREATE TABLE IF NOT EXISTS `Tag` (
   `idTag` int(11) NOT NULL AUTO_INCREMENT,
   `tag` varchar(255) NOT NULL,
   PRIMARY KEY (`idTag`)
 ) ENGINE=MyISAM  DEFAULT CHARSET=latin1 AUTO_INCREMENT=1415 ;
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `Type`
+--
 
 CREATE TABLE IF NOT EXISTS `Type` (
   `idType` int(11) NOT NULL AUTO_INCREMENT,
@@ -319,6 +505,12 @@ CREATE TABLE IF NOT EXISTS `Type` (
   `extension` varchar(255) DEFAULT NULL,
   PRIMARY KEY (`idType`)
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=5 ;
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `User`
+--
 
 CREATE TABLE IF NOT EXISTS `User` (
   `idUser` int(11) NOT NULL AUTO_INCREMENT,
@@ -330,54 +522,93 @@ CREATE TABLE IF NOT EXISTS `User` (
   `MyRol` int(11) NOT NULL,
   `perms` int(11) DEFAULT NULL,
   PRIMARY KEY (`idUser`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=5 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=3 ;
 
+--
+-- Restricciones para tablas volcadas
+--
 
+--
+-- Filtros para la tabla `Article`
+--
 ALTER TABLE `Article`
   ADD CONSTRAINT `fk_author` FOREIGN KEY (`author`) REFERENCES `User` (`idUser`) ON DELETE NO ACTION ON UPDATE NO ACTION;
 
+--
+-- Filtros para la tabla `ArticleContent`
+--
 ALTER TABLE `ArticleContent`
   ADD CONSTRAINT `fk_ArticleContent_Article` FOREIGN KEY (`idArticle`) REFERENCES `Article` (`idArticle`) ON DELETE NO ACTION ON UPDATE NO ACTION,
   ADD CONSTRAINT `fk_ArticleContent_Lang` FOREIGN KEY (`lang`) REFERENCES `Lang` (`idLang`) ON DELETE NO ACTION ON UPDATE NO ACTION;
 
+--
+-- Filtros para la tabla `Banner_has_Article`
+--
 ALTER TABLE `Banner_has_Article`
   ADD CONSTRAINT `fk_Banner_has_Article_Article1` FOREIGN KEY (`idArticle`) REFERENCES `Article` (`idArticle`) ON DELETE NO ACTION ON UPDATE NO ACTION,
   ADD CONSTRAINT `fk_Banner_has_Article_Banner1` FOREIGN KEY (`idBanner`) REFERENCES `Banner` (`idBanner`) ON DELETE NO ACTION ON UPDATE NO ACTION;
 
+--
+-- Filtros para la tabla `Banner_linkedTo`
+--
 ALTER TABLE `Banner_linkedTo`
   ADD CONSTRAINT `fk_Banner_linkedTo_Banner1` FOREIGN KEY (`idBanner`) REFERENCES `Banner` (`idBanner`) ON DELETE NO ACTION ON UPDATE NO ACTION;
 
+--
+-- Filtros para la tabla `Comment`
+--
 ALTER TABLE `Comment`
   ADD CONSTRAINT `fk_Comment_Article1` FOREIGN KEY (`Article_idArticle`) REFERENCES `Article` (`idArticle`) ON DELETE NO ACTION ON UPDATE NO ACTION,
   ADD CONSTRAINT `fk_Comment_Comment1` FOREIGN KEY (`parent`) REFERENCES `Comment` (`idComment`) ON DELETE NO ACTION ON UPDATE NO ACTION,
   ADD CONSTRAINT `fk_Comment_Lang1` FOREIGN KEY (`Lang_idLang`) REFERENCES `Lang` (`idLang`) ON DELETE NO ACTION ON UPDATE NO ACTION;
 
+--
+-- Filtros para la tabla `Components`
+--
 ALTER TABLE `Components`
   ADD CONSTRAINT `fk_Components_Article1` FOREIGN KEY (`Article_idArticle`) REFERENCES `Article` (`idArticle`) ON DELETE NO ACTION ON UPDATE NO ACTION;
 
+--
+-- Filtros para la tabla `Evento`
+--
 ALTER TABLE `Evento`
   ADD CONSTRAINT `fk_Evento_Agenda` FOREIGN KEY (`idAgenda`) REFERENCES `Agenda` (`idAgenda`) ON DELETE NO ACTION ON UPDATE NO ACTION;
 
+--
+-- Filtros para la tabla `EventoContent`
+--
 ALTER TABLE `EventoContent`
   ADD CONSTRAINT `fk_EventoContent_Evento` FOREIGN KEY (`idEvento`) REFERENCES `Evento` (`idEvento`) ON DELETE NO ACTION ON UPDATE NO ACTION;
 
+--
+-- Filtros para la tabla `File`
+--
 ALTER TABLE `File`
   ADD CONSTRAINT `fk_File_Category` FOREIGN KEY (`MyCategory`) REFERENCES `Category` (`idCategory`) ON DELETE NO ACTION ON UPDATE NO ACTION,
   ADD CONSTRAINT `fk_File_Type` FOREIGN KEY (`MyType`) REFERENCES `Type` (`idType`) ON DELETE NO ACTION ON UPDATE NO ACTION;
 
+--
+-- Filtros para la tabla `MenuContent`
+--
 ALTER TABLE `MenuContent`
   ADD CONSTRAINT `fk_MenuContent_Lang` FOREIGN KEY (`lang`) REFERENCES `Lang` (`idLang`) ON DELETE NO ACTION ON UPDATE NO ACTION,
   ADD CONSTRAINT `fk_MenuContent_Menu` FOREIGN KEY (`idMenu`) REFERENCES `Menu` (`idMenu`) ON DELETE NO ACTION ON UPDATE NO ACTION;
 
+--
+-- Filtros para la tabla `Newsletter`
+--
 ALTER TABLE `Newsletter`
   ADD CONSTRAINT `fk_Newsletter_Article1` FOREIGN KEY (`articuloPrincipal`) REFERENCES `Article` (`idArticle`) ON DELETE NO ACTION ON UPDATE NO ACTION;
 
+--
+-- Filtros para la tabla `Newsletter_has_Article`
+--
 ALTER TABLE `Newsletter_has_Article`
   ADD CONSTRAINT `fk_Newsletter_has_Article_Article1` FOREIGN KEY (`Article_idArticle`) REFERENCES `Article` (`idArticle`) ON DELETE NO ACTION ON UPDATE NO ACTION,
   ADD CONSTRAINT `fk_Newsletter_has_Article_Newsletter1` FOREIGN KEY (`Newsletter_idNewsletter`) REFERENCES `Newsletter` (`idNewsletter`) ON DELETE NO ACTION ON UPDATE NO ACTION;
 
 
-INSERT INTO `Category` VALUES (1,'Generales','images'),(2,'Generales','documents'),(3,'Banners','images');
+INSERT INTO `Category` VALUES (1,'Generales','images',0),(2,'Generales','documents',0),(3,'Banners','images',0);
 INSERT INTO `Lang` VALUES ('ar','Arabic',0,0),('bg','Bulgarian',0,0),('bs','Bosnian',0,0),('ca','Catalan',0,0),('cs','Czech',0,0),('cy','Welsh',0,0),('da','Danish',0,0),('de','German',0,0),('el','Greek',0,0),('en','English',0,0),('eo','Esperanto',0,0),('es','Spanish',1,1),('et','Estonian',0,0),('eu','Basque',0,0),('fa','Persian',0,0),('fi','Finnish',0,0),('fr','French',0,0),('ga','Irish',0,0),('he','Hebrew',0,0),('hi','Hindi',0,0),('hr','Croatian',0,0),('hu','Hungarian',0,0),('hy','Armenian',0,0),('id','Indonesian',0,0),('is','Icelandic',0,0),('it','Italian',0,0),('ja','Japanese',0,0),('ko','Korean',0,0),('ku','Kurdish',0,0),('la','Latin',0,0),('lt','Lithuanian',0,0),('lv','Latvian',0,0),('mk','Macedonian',0,0),('mn','Mongolian',0,0),('mo','Moldavian',0,0),('mt','Maltese',0,0),('nb','Norwegian BokmÃ¥l',0,0),('ne','Nepali',0,0),('nl','Dutch',0,0),('pa','Punjabi',0,0),('pl','Polish',0,0),('pt-br','Portuguese, Brazil',0,0),('pt-pt','Portuguese, Portugal',0,0),('qu','Quechua',0,0),('ro','Romanian',0,0),('ru','Russian',0,0),('sl','Slovenian',0,0),('sla','Slavic',0,0),('so','Somali',0,0),('sq','Albanian',0,0),('sr','Serbian',0,0),('sv','Swedish',0,0),('ta','Tamil',0,0),('th','Thai',0,0),('tr','Turkish',0,0),('uk','Ukrainian',0,0),('ur','Urdu',0,0),('uz','Uzbek',0,0),('vi','Vietnamese',0,0),('yi','Yiddish',0,0),('zh-hans','Chinese (Simplified)',0,0),('zh-hant','Chinese (Traditional)',0,0),('zu','Zulu',0,0);
 INSERT INTO `Settings` VALUES ('analytics',''),('analytics-tableid',''),('analytics-user',''),('analytics-pass',''),('smtp-host',''),('smtp-user',''),('smtp-pass',''),('smtp-port','25'),('smtp-auth','1'),('smtp-secure',''),('youtube-user','');
 INSERT INTO `Type` VALUES (1,'Indesign','indd'),(2,'ImÃ¡gen','jpg jpeg tga tiff png gif'),(3,'pdf','pdf'),(4,'Comprimido','.zip .rar');

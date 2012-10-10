@@ -1,5 +1,5 @@
 <?php
-if(isset($_GET['popup'])):
+if(isset($_GET['popup']) || isset($_GET['tinyMCE'])):
 	$this->layout='blank';
 endif;
 //$this->layout='admin';
@@ -42,11 +42,19 @@ Documentos
 				    $popup='';
 				    if(isset($_GET['popup']))
 					$popup='&popup='.$_GET['popup'];
+
+				    $tinyMCE='';
+				    if(isset($_GET['tinyMCE']))
+					$tinyMCE='&tinyMCE='.$_GET['tinyMCE'];
+
 				    foreach($galeria as $i=>$item){
 					if($i==0)
 					    $firstGalery=$item;
 					    
-					    echo "<li><a href='".Yii::app()->getBaseUrl()."/admin.php?r=media/".$urlToLoad."&id=".$item->idCategory.$popup."' class='ajaxLink'><span id='tabitem_".$item->idCategory."'>".$item->name."</span></a></li>";
+					    echo "<li><a href='".Yii::app()->getBaseUrl()."/admin.php?r=media/".$urlToLoad."&id=".$item->idCategory.$popup.$tinyMCE."' class='ajaxLink'><span id='tabitem_".$item->idCategory."'>".$item->name;
+					    if ($item->gallery == "1"){
+						echo " (G)";}
+					    echo "</span></a></li>";
 				    }
 				   
 
@@ -101,7 +109,7 @@ function initGaleryAjax(id){
 
 	//Iniciamos la primera galeria
 	
-	var firstLink="<?php echo Yii::app()->getBaseUrl()."/admin.php?r=media/".$urlToLoad."&id=" ?>"+id+"<?php echo $popup ?>";
+	var firstLink="<?php echo Yii::app()->getBaseUrl()."/admin.php?r=media/".$urlToLoad."&id=" ?>"+id+"<?php echo $popup.$tinyMCE ?>";
 	jQuery.ajax({'url':firstLink,'cache':false,'success':function(html){
 	        $("#contentTab").html(html);	   
 	        
@@ -116,12 +124,15 @@ function initGaleryAjax(id){
   });
 </script>
 <script>
-function setData(galeria, file, nombre, ext, size){
+function setData(galeria, file, nombre, ext, size, description){
     $('#previo_g'+galeria).attr("src", "upload/"+file+"_med."+ext);
     $('#FileName_g'+galeria).html(nombre);
     $('#FileType_g'+galeria).html(ext);
     $('#FileSize_g'+galeria).html(size);
-    <?php if(isset($_GET['popup'])): ?>
+
+    $('#descarga_g'+galeria).attr("title", description);
+    
+    <?php if(isset($_GET['popup']) || isset($_GET['tinyMCE'])): ?>
         $('#descarga_g'+galeria).attr("href", "upload/"+file+"."+ext);
     <?php else: ?>
     $('#descarga_g'+galeria).attr("href", "?r=media/download&descarga="+file+"."+ext);

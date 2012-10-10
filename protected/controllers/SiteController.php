@@ -74,36 +74,6 @@ class SiteController extends Controller
 
 
 	/**
-	 * Displays the protagonista page
-	 */
-	public function actionProtagonista()
-	{
-		$model=new ProtagonistaForm;
-		if(isset($_POST['ProtagonistaForm']))
-		{
-			$model->attributes=$_POST['ProtagonistaForm'];
-			if($model->validate())
-			{
-				//$headers="From: {$model->email}\r\nReply-To: {$model->email}";
-				//mail(Yii::app()->params['adminEmail'],$model->subject,$model->body,$headers);
-
-				$urlImages="http://".$_SERVER['SERVER_NAME'].Yii::app()->theme->baseUrl."/images";
-				$mensaje=file_get_contents(Yii::app()->theme->basePath.'/mails/mensajeProt.html');
-				$search=array('[RUTA_IMG]','[APP_NAME]','[USUARIO]','[EMAIL]','[MENSAJE]','[EMPRESA]', '[APELLIDOS]','[ASUNTO]','[TEL]');
-				$replace=array($urlImages, Yii::app()->name, $model->name, $model->email, $model->body, '', $model->surname, 'Quiero ser el protagonista de la semana',$model->telefono);
-				$mensaje= str_replace($search, $replace, $mensaje);
-				$asunto='Quiero ser el protagonista de la semana';
-				ACMS::sendMail($model->email, 'fran@eurotri.com', $asunto, $mensaje);
-
-
-				Yii::app()->user->setFlash('contact','Gracias por contactar con nosotros. Le responderemos lo mas pronto que nos sea posible.');
-				$this->refresh();
-			}
-		}
-		$this->render('protagonista',array('model'=>$model));
-	}
-
-	/**
 	 * Displays the contact page
 	 */
 	public function actionContact()

@@ -12,6 +12,33 @@ $(function() {
         $(".datepicker").datepicker({dateFormat: "yy-mm-dd"});
 });
 
+function myCustomFileBrowser(field_name, url, type, win) {
+	//Abrir la ventana padre!
+	if (type=='image')
+		var cmsURL="<?php echo Yii::app()->request->baseUrl?>/admin.php?r=media&type=images&tinyMCE=1";
+	if (type=='file')
+		var cmsURL="<?php echo Yii::app()->request->baseUrl?>/admin.php?r=media&type=documents&tinyMCE=1";
+        // Do custom browser logic
+        //win.document.forms[0].elements[field_name].value = 'my browser value';
+
+
+	 // newer writing style of the TinyMCE developers for tinyMCE.openWindow
+
+     tinyMCE.activeEditor.windowManager.open({
+        file : cmsURL,
+        title : 'My File Browser',
+        width : 900,  // Your dimensions may differ - toy around with them!
+        height : 600,
+        resizable : "yes",
+        inline : "yes",  // This parameter only has an effect if you use the inlinepopups plugin!
+        close_previous : "no"
+    }, {
+        window : win,
+        input : field_name
+    });
+    return false;
+}
+
 tinyMCE.init({
         mode : "specific_textareas",
 	editor_selector : "mceEditor",
@@ -37,7 +64,9 @@ tinyMCE.init({
         // Drop lists for link/image/media/template dialogs
         external_image_list_url : "admin.php?r=media/imageList",
         width:"100%",
-        height:"300px"
+        height:"300px",
+
+	file_browser_callback : "myCustomFileBrowser"
 });
 
 </script>
@@ -117,7 +146,7 @@ tinyMCE.init({
 
                 <div class="row buttons">
                         <?php echo CHtml::submitButton($model->isNewRecord ? 'Create' : 'Save',array('class'=>'button')); ?>
-                        <?php echo CHtml::linkButton('Delete',array('submit'=>array('deleteNews','id'=>$model->idArticle),'confirm'=>'¿Estás seguro de eliminar esta noticia?','class'=>'buttonDelete')); ?>
+                        <?php echo CHtml::linkButton('Delete',array('submit'=>array('delete','id'=>$model->idArticle),'confirm'=>'¿Estás seguro de eliminar esta noticia?','class'=>'buttonDelete')); ?>
                         <?php echo CHtml::link('Previsualizar','index.php?r=site/page&preview=1&idm=1&idCat='.$model->category.'&id='.$model->idArticle,array('class'=>'button','target'=>'_blank')); ?>
                 </div>
 

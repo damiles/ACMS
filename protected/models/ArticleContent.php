@@ -49,8 +49,10 @@ class ArticleContent extends CActiveRecord
 	{
 		// NOTE: you may need to adjust the relation name and the related
 		// class name for the relations automatically generated below.
-		return array(
+		return array('idArticle0' => array(self::BELONGS_TO, 'Article', 'idArticle'),
+				'lang' => array(self::BELONGS_TO, 'Lang', 'lang'),
 		);
+
 	}
 
 	/**
@@ -62,7 +64,7 @@ class ArticleContent extends CActiveRecord
 			'text' => 'Text',
 			'lang' => 'Lang',
 			'idArticle' => 'Id Article',
-			'title' => 'Title',
+			'title' => 'Título',
 		);
 	}
 }

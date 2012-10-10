@@ -9,13 +9,19 @@
  * @property string $location
  * @property string $time
  * @property integer $idAgenda
+ * @property string $fechaIniInscripcion
+ * @property string $fechaFinInscripcion
+ * @property integer $maxInscripciones
+ * @property integer $inscritos
  *
  * The followings are the available model relations:
  * @property Agenda $idAgenda0
  * @property EventoContent[] $eventoContents
+ * @property Inscripcion[] $inscripcions
  */
 class Evento extends CActiveRecord
 {
+	public $title="";
 	/**
 	 * Returns the static model of the specified AR class.
 	 * @return Evento the static model class
@@ -42,12 +48,12 @@ class Evento extends CActiveRecord
 		// will receive user inputs.
 		return array(
 			array('idAgenda', 'required'),
-			array('idAgenda', 'numerical', 'integerOnly'=>true),
+			array('idAgenda, maxInscripciones, inscritos', 'numerical', 'integerOnly'=>true),
 			array('location', 'length', 'max'=>255),
-			array('date, time', 'safe'),
+			array('date, time, fechaIniInscripcion, fechaFinInscripcion, destacado, url', 'safe'),
 			// The following rule is used by search().
 			// Please remove those attributes that should not be searched.
-			array('idEvento, date, location, time, idAgenda', 'safe', 'on'=>'search'),
+			array('idEvento, date, location, time, idAgenda, fechaIniInscripcion, fechaFinInscripcion', 'safe', 'on'=>'search'),
 		);
 	}
 
@@ -61,6 +67,8 @@ class Evento extends CActiveRecord
 		return array(
 			'agenda' => array(self::BELONGS_TO, 'Agenda', 'idAgenda'),
 			'content' => array(self::HAS_MANY, 'EventoContent', 'idEvento'),
+			'inscripciones' => array(self::HAS_MANY, 'Inscripcion', 'Evento_idEvento'),
+			'tituloContent'=> array(self::HAS_ONE,'EventoContent','idEvento','with'=>array('lang'=>array('alias'=>'l1','scopes'=>array('default'=>1)))),
 		);
 	}
 
@@ -70,11 +78,16 @@ class Evento extends CActiveRecord
 	public function attributeLabels()
 	{
 		return array(
-			'idEvento' => 'Id Evento',
-			'date' => 'Date',
-			'location' => 'Location',
-			'time' => 'Time',
-			'idAgenda' => 'Id Agenda',
+			'idEvento' => 'Identificador',
+			'date' => 'Fecha',
+			'location' => 'Lugar',
+			'time' => 'Hora',
+			'idAgenda' => 'Identificador Agenda',
+			'fechaIniInscripcion' => 'Fecha inicio',
+			'fechaFinInscripcion' => 'Fecha fin',
+			'maxInscripciones' => 'N&uacute;mero M&aacute;ximo de inscritos',
+			'url'=>'Archivo o dirección web (debe empezar con http:// ) que enlaza el evento',
+			'title'=>'Título',
 		);
 	}
 
@@ -94,6 +107,8 @@ class Evento extends CActiveRecord
 		$criteria->compare('location',$this->location,true);
 		$criteria->compare('time',$this->time,true);
 		$criteria->compare('idAgenda',$this->idAgenda);
+		$criteria->compare('fechaIniInscripcion',$this->fechaIniInscripcion,true);
+		$criteria->compare('fechaFinInscripcion',$this->fechaFinInscripcion,true);
 
 		return new CActiveDataProvider(get_class($this), array(
 			'criteria'=>$criteria,

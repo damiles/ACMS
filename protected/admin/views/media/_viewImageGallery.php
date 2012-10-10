@@ -3,7 +3,12 @@
 <li><a href="#" onclick="Mostrar('archivo')">Subir Archivo</a></li>
 <li><a href="#" onclick="MostrarVista('')">Cambiar Vista</a></li>
 </ul></div>
-
+<?php
+if(isset($_GET["tinyMCE"])){
+	$cs=Yii::app()->clientScript;
+	$cs->registerScriptFile(Yii::app()->request->baseUrl.'/js/tiny_mce/tiny_mce_popup.js', CClientScript::POS_HEAD);
+}
+?>
 <script type="text/javascript">
     function Mostrar(option){
 	var contenedor = $("#"+option);
@@ -28,6 +33,8 @@
 	return true;
 	
     }
+
+	
 </script>
 <?php
 /* 
@@ -45,6 +52,11 @@ if(isset($_GET['popup']))
 	echo "<div class='form'><fieldset id='categoria' style='display:none;'><legend>Datos de la categoría</a></legend>";
         echo "Colecci&oacute;n: <br><br><span class='modify' id='tit_cat_$item->idCategory'>$item->name</span>";
 	echo "<p class='info'>Pulsa sobre el nombre de la categoría para cambiarla.</p>";
+
+	$isChecked=($item->gallery)?"checked":"";
+	echo "<input class='check' id='check_gal_$item->idCategory' type='checkbox' name='gallery'  $isChecked /> Crear como galeria de imágenes.";
+	
+
 	//echo "<div><a href='#TB_inline?inlineId=form_$item->idCategory&height=125&width=350' class='icon_add' rel='sexylightbox' >A&ntilde;adir imagen</a></div>";
 	echo "<div class='row'>";
 	echo "<a onclick='return confirmDelete();' href='admin.php?r=media/deleteCategory&idCat=$item->idCategory&type=$item->type".$popupG."' class='buttonDelete' style='color:#fff'>Borrar categoría</a>";
@@ -106,8 +118,8 @@ if(isset($_GET['popup']))
 			        <span class="txt" id="FileSize_g<?php echo $item->idCategory ?>"><?php echo Utiles::formatBytes(filesize(Yii::app()->params['upload'].$firstImg->url)) ?></span>
 			    </div>
 			    <div class="acciones clearfix" style="padding-left:18px;margin-top:8px;">
-				<?php if(isset($_GET['popup'])){ ?>
-					<a class="button" style="color:#fff;" href="upload/<?php echo $firstImg->url;?>" id="descarga_g<?php echo $item->idCategory ?>">Utilizar</a>
+				<?php if(isset($_GET['popup']) || isset($_GET['tinyMCE'])){ ?>
+					<a class="button" style="color:#fff;" title="<?php echo $firstImg->description; ?>" href="upload/<?php echo $firstImg->url;?>" id="descarga_g<?php echo $item->idCategory ?>">Utilizar</a>
 				<?php }else{ ?>			    	
 				<a class="button" style="color:#fff;" href="--?r=media/download&descarga=<?php echo $firstImg->url;?>" id="descarga_g<?php echo $item->idCategory ?>">Descargar</a>
 				<?php } ?>
@@ -134,6 +146,8 @@ if(isset($_GET['popup']))
 						}
 					);
 				<?php endif; ?>
+
+				
 
 				jQuery('#borrar_g<?php echo $item->idCategory?>').click(
 						function(){
@@ -222,7 +236,39 @@ function inputs_init(){
                 inputs_createEvents("#input_"+id, "#span_"+id);
         });
 
+
+	//Creamos evento de checkbox
+	var elementsCheck=$('.check');
+	elementsCheck.click(function(){
+		var theId=$(this).attr('id').split("check_gal_")[1];
+		var isChecked=$(this).attr('checked');
+		$.ajax({
+                   method: "get",
+                   url: "<?php echo Yii::app()->getBaseUrl()."/admin.php" ?>",
+                   data: {r:'media/updateCategoryGal',id:theId,val:isChecked},
+                   beforeSend:function(){
+
+                   },
+                   complete:function(){
+
+                   },
+                   success: function(html){
+			var G=$("#input_tit_cat_"+theId).val();
+			if(isChecked)
+				G=G+" (G)";
+			
+                      $("#tabitem_"+theId).html(G);
+                   }
+                });
+	});
+
 }
+
+
+ 
+
+
+
 function inputs_createEvents(input, spn){
         $(spn).click(function(event){
                 //var w=$(this).width()+70;
@@ -255,9 +301,66 @@ function inputs_createEvents(input, spn){
                 });
                 
         });
+
+
+
+
 }
+
+
+var fileSelected='';
+var descrSelected='';
 jQuery(document).ready(function() {
 	
 	inputs_init();
+
+
+	<?php if(isset($_GET["tinyMCE"])){ ?>
+		tinyMCEPopup.executeOnLoad('init();')
+
+
+
+		var FileBrowserDialogue = {
+		    init : function () {
+			// Here goes your code for setting your custom things onLoad.
+		    },
+		    mySubmit : function () {
+			var URL = fileSelected;
+			var win = tinyMCEPopup.getWindowArg("window");
+
+			// insert information now
+			win.document.getElementById(tinyMCEPopup.getWindowArg("input")).value = URL;
+			
+
+			// are we an image browser
+			if (typeof(win.ImageDialog) != "undefined") {
+			    // we are, so update image dimensions...
+			    if (win.ImageDialog.getImageData)
+				win.ImageDialog.getImageData();
+
+			    // ... and preview if necessary
+			    if (win.ImageDialog.showPreviewImage)
+				win.ImageDialog.showPreviewImage(URL);
+			}
+
+			// close popup window
+			tinyMCEPopup.close();
+		    }
+		}
+
+		tinyMCEPopup.onInit.add(FileBrowserDialogue.init, FileBrowserDialogue);
+
+		<?php if(isset($_GET['tinyMCE'])): ?>
+			jQuery('#descarga_g<?php echo $item->idCategory?>').click(
+				function(){
+					fileSelected=jQuery(this).attr('href');
+					descrSelected=jQuery(this).attr('title');
+					FileBrowserDialogue.mySubmit();
+					return false;
+				}
+			);
+		<?php endif; ?>
+
+	<?php } ?>
 });	
 </script>

@@ -173,3 +173,10 @@ REQUEST_URI=/Eurotri/index.php?r=site/index&id=5&title=Lo_m%C3%A1s_destacado_de_
 2012/05/18 10:33:18 [warning] [application] Spent time into index: 0.44851899147034 seconds
 2012/05/18 10:39:28 [warning] [application] Spent time into index: 0.44268298149109 seconds
 2012/05/21 09:00:20 [warning] [application] Spent time into index: 1.4412078857422 seconds
+2012/10/08 15:45:54 [warning] [application] Spent time into index: 0.38816380500793 seconds
+2012/10/08 17:43:44 [warning] [application] Spent time into index: 0.2111759185791 seconds
+2012/10/08 17:44:57 [warning] [application] Spent time into index: 0.15525984764099 seconds
+2012/10/08 17:45:39 [warning] [application] Spent time into index: 0.10480213165283 seconds
+2012/10/08 17:53:44 [warning] [application] Spent time into index: 0.093361854553223 seconds
+2012/10/08 17:56:41 [warning] [application] Spent time into index: 0.11873483657837 seconds
+2012/10/08 17:56:57 [warning] [application] Spent time into index: 0.054295778274536 seconds

@@ -49,6 +49,8 @@ class ArticleCategoryContent extends CActiveRecord
 		// NOTE: you may need to adjust the relation name and the related
 		// class name for the relations automatically generated below.
 		return array(
+			'idArticleCategory0' => array(self::BELONGS_TO, 'ArticleCategory', 'idArticleCategory'),
+                    'lang' => array(self::BELONGS_TO, 'Lang', 'lang'),
 		);
 	}
 

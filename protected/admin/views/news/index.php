@@ -2,20 +2,28 @@
 ?>
 
 <h1><div class="icon32_news"></div>Noticias</h1>
-<div class="clearfix"><?php echo CHtml::linkButton('Nuevo',array('submit'=>array('createNews'),'class'=>'button')); ?></div>
+<div class="clearfix"><?php echo CHtml::linkButton('Crear nueva noticia',array('submit'=>array('createNews'),'class'=>'button buttonGreen')); ?></div>
 <br/>
 <div class="col50">
 <?php echo CHtml::form('admin.php?r=news','get'); ?>
-Categor&iacute;a:<br/>
-<?php echo CHtml::dropDownList('cat',
-    isset($_GET['cat'])?(int)$_GET['cat']:0,
-    ACMS::getCategorias(),
-    array('empty'=>'Todas las categorias', 'submit'=>'')); ?>
-<?php echo CHtml::endForm(); ?>
+<!--Categor&iacute;a:<br/>--></br/>
+<?php /*
+	$cat=0;
+	if(isset($_GET['Article'])){
+		if(isset($_GET['Article']['category']))
+			$cat=(int)$_GET['Article']['category'];
+	}
+		echo CHtml::dropDownList('Article[category]',
+    		$cat,
+    		ACMS::getCategorias(),
+    		array('empty'=>'Todas las categorias', 'submit'=>'')); ?>
+	
+
+<?php echo CHtml::endForm(); */?>
 <br/>
 </div>
 
-<TABLE width="100%" class="listado" >
+<!--<TABLE width="100%" class="listado" >
     <THEAD>
          <tr>
              <th width="24" class="center">id</th>
@@ -27,10 +35,37 @@ Categor&iacute;a:<br/>
             <th width="50">Visits</th>
           </tr>
     </THEAD>
-    <TBODY class="contenido_tabla">
-<?php $this->widget('zii.widgets.CListView', array(
-	'dataProvider'=>$dataProvider,
-	'itemView'=>'_viewNews',
+    <TBODY class="contenido_tabla">-->
+
+<?php 
+$this->widget('zii.widgets.grid.CGridView', array(
+	'id'=>'id',
+	'dataProvider'=>$model->search(),
+	'filter'=>$model,
+	'columns'=>array(
+		'idArticle',
+		//'title',
+		array(
+                    'name'=>'title',
+                    'value'=>'$data->tituloContent->title',
+                    'type'=>'text',
+                    ),
+		/*array(
+                    'name'=>'categoryTitle',
+                    'value'=>'(isset($data->myCategory))?$data->myCategory->defaultContent->title:"Sin categoria"',
+                    'type'=>'text',
+                    ),*/
+		//'comments',
+		'date',
+		
+		'hits',
+		array(
+			'class'=>'CButtonColumn',
+			'template'=>'{update}{delete}',
+		),
+	),
 )); ?>
-    </TBODY>
-</TABLE>
+
+
+
+
